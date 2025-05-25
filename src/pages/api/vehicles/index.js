@@ -1,6 +1,7 @@
+
+
 import dbConnect from '../../../lib/dbConnect';
 import Vehicles from '../../../models/VehicleInv';
-
 
 export default async function handler(req, res) {
   const { method } = req;
