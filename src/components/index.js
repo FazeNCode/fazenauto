@@ -1,4 +1,4 @@
-import Navbar from './Navbar';
+import { Navbar, Footer } from '../components';
 
 
 export {

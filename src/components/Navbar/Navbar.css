@@ -1,0 +1,144 @@
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 20;
+  background-color: #1f2937; /* bg-primary */
+  background-opacity: 0.8;
+}
+
+.navbar-large {
+  padding: 20px 0;
+}
+
+.navbar-small {
+  padding: 8px 0;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 120px;
+  height: auto;
+}
+
+.logo-text {
+  color: white;
+  font-size: 34px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logo-text-desktop {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .logo-text-desktop {
+    display: inline;
+    margin-left: -24px;
+  }
+}
+
+/* Mobile Nav */
+.mobile-nav-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: block;
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 80px;
+  right: 0;
+  width: 100%;
+  background: #1f2937;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  z-index: 10;
+  display: none;
+}
+
+.mobile-menu.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu.hide {
+  display: none;
+}
+
+/* Nav Lists */
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.desktop-list {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-list {
+    display: flex;
+    gap: 2.5rem;
+  }
+}
+
+.mobile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #9ca3af; /* text-secondary */
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #ffffff;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  background-color: #1f2937;
+  border-radius: 0.5rem;
+  margin-top: 0.25rem;
+  padding: 0.5rem 0;
+  transition: max-height 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.desktop-dropdown {
+  position: absolute;
+  left: 0;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

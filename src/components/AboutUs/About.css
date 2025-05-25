@@ -1,0 +1,56 @@
+/* AboutUs.css */
+.about-section {
+  padding: 4rem 2rem;
+  background-color: #4b5563; /* Tailwind's bg-gray-600 */
+  color: black;
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #3b82f6; /* Tailwind's text-primary (usually blue-500) */
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .about-content {
+    flex-direction: row;
+  }
+}
+
+.about-column {
+  flex: 1;
+}
+
+.column-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.column-text {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.about-footer {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 1.125rem;
+  color: #374151; /* Tailwind's text-gray-700 */
+}

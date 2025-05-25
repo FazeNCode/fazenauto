@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import styles from '../app/style'; // Adjusted alias for regular .jsx usage
+// import styles from '../../app/style'; // Adjusted alias for regular .jsx usage
 
 import { FaFacebook, FaTwitter, FaInstagram, FaTiktok } from 'react-icons/fa';
 
