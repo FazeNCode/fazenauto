@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.21",
     "hamburger-react": "^2.5.2",
     "mongoose": "^8.15.0",
     "multer": "^2.0.0",
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.1.8",
     "postcss": "^8.5.3",
