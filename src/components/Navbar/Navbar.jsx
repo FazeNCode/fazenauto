@@ -4,9 +4,8 @@ import { Sling as Hamburger } from "hamburger-react";
 import { navLinks } from "../../constants";
 import Link from "next/link";
 import Image from "next/image";
-// import flogo from "../assets/flogo.png";
 import "./Navbar.css";
-import flogo from '../../assets/flogo.png'; // 
+import flogo from "../../assets/flogo.png";
 
 const Logo = () => (
   <div className="logo-container">
@@ -28,7 +27,7 @@ const MobileNav = ({ toggle, setToggle }) => (
     <Hamburger
       toggled={toggle}
       toggle={setToggle}
-      size={50}
+      size={30}
       easing="ease-in"
       duration={0.7}
       rounded
@@ -44,8 +43,6 @@ const Navbar = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsLargeScreen(window.innerWidth >= 768);
-
       const handleResize = () => {
         setIsLargeScreen(window.innerWidth >= 768);
         if (window.innerWidth >= 768) {
@@ -53,6 +50,7 @@ const Navbar = () => {
         }
       };
 
+      setIsLargeScreen(window.innerWidth >= 768);
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }
@@ -63,12 +61,17 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${isLargeScreen ? "navbar-large" : "navbar-small"}`}>
       <div className="navbar-container">
-        <Link href="/" onClick={() => {
-          setActive("");
-          window.scrollTo(0, 0);
-        }}>
-          <Logo />
-        </Link>
+        {!toggle && (
+          <Link
+            href="/"
+            onClick={() => {
+              setActive("");
+              window.scrollTo(0, 0);
+            }}
+          >
+            <Logo />
+          </Link>
+        )}
 
         <MobileNav toggle={toggle} setToggle={setToggle} />
 
@@ -79,16 +82,19 @@ const Navbar = () => {
               <li key={link.id} className="nav-item">
                 {link.subLinks ? (
                   <>
-                    <a className={`nav-link ${active === link.title ? "active" : ""}`} onClick={() => {
-                      setActive(link.title);
-                      handleDropdownToggle();
-                    }}>
+                    <a
+                      className={`nav-link ${active === link.title ? "active" : ""}`}
+                      onClick={() => {
+                        setActive(link.title);
+                        handleDropdownToggle();
+                      }}
+                    >
                       {link.title}
                       <span>{dropdownOpen ? "▲" : "▼"}</span>
                     </a>
                     {dropdownOpen && (
                       <ul className="dropdown-menu">
-                        {link.subLinks.map(sub => (
+                        {link.subLinks.map((sub) => (
                           <li key={sub.id} className="dropdown-item">
                             <Link href={`/${sub.id}`}>{sub.title}</Link>
                           </li>
@@ -97,7 +103,12 @@ const Navbar = () => {
                     )}
                   </>
                 ) : (
-                  <Link className={`nav-link ${active === link.title ? "active" : ""}`} href={`/${link.id}`}>{link.title}</Link>
+                  <Link
+                    className={`nav-link ${active === link.title ? "active" : ""}`}
+                    href={`/${link.id}`}
+                  >
+                    {link.title}
+                  </Link>
                 )}
               </li>
             ))}
@@ -110,16 +121,19 @@ const Navbar = () => {
             <li key={link.id} className="nav-item">
               {link.subLinks ? (
                 <>
-                  <a className={`nav-link ${active === link.title ? "active" : ""}`} onClick={() => {
-                    setActive(link.title);
-                    handleDropdownToggle();
-                  }}>
+                  <a
+                    className={`nav-link ${active === link.title ? "active" : ""}`}
+                    onClick={() => {
+                      setActive(link.title);
+                      handleDropdownToggle();
+                    }}
+                  >
                     {link.title}
                     <span>{dropdownOpen ? "▲" : "▼"}</span>
                   </a>
                   {dropdownOpen && (
                     <ul className="dropdown-menu desktop-dropdown">
-                      {link.subLinks.map(sub => (
+                      {link.subLinks.map((sub) => (
                         <li key={sub.id} className="dropdown-item">
                           <Link href={`/${sub.id}`}>{sub.title}</Link>
                         </li>
@@ -128,7 +142,12 @@ const Navbar = () => {
                   )}
                 </>
               ) : (
-                <Link className={`nav-link ${active === link.title ? "active" : ""}`} href={`/${link.id}`}>{link.title}</Link>
+                <Link
+                  className={`nav-link ${active === link.title ? "active" : ""}`}
+                  href={`/${link.id}`}
+                >
+                  {link.title}
+                </Link>
               )}
             </li>
           ))}
