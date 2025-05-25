@@ -2,7 +2,7 @@ import multer from 'multer';
 import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
-import dbConnect from '../../lib/dbConnect';
+import dbConnect from '../lib/dbConnect'
 import mongoose from 'mongoose';
 
 // Disable Next.js default body parsing to allow multer to handle the multipart/form-data
