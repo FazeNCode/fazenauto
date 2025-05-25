@@ -1,8 +1,8 @@
 // import localFont from "next/font/local";
 import "./globals.css";
 
-import Navbar from "../components/Navbar";
-import Vehicle from "../components/Vehicle";
+import Navbar from "../components/Navbar/Navbar";
+import Vehicle from "../components/Vehicle/Vehicle";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
