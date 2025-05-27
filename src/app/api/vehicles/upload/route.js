@@ -79,8 +79,9 @@ export async function POST(request) {
     const imageFile = form.get('image');
     const buffer = Buffer.from(await imageFile.arrayBuffer());
 
-   const safeFileName = imageFile.name.replace(/\s+/g, '-').toLowerCase();
-const year = form.get('year'); // Make sure you extract this before using it
+const safeFileName = imageFile.name.replace(/\s+/g, '-').toLowerCase();
+const year = form.get('year');
+const fileKey = `vehicles/${year}/${uuidv4()}-${safeFileName}`;
 
 const uploadParams = {
   Bucket: process.env.AWS_S3_BUCKET_NAME,
@@ -90,9 +91,11 @@ const uploadParams = {
   CacheControl: 'public, max-age=31536000',
 };
 
-    await s3.send(new PutObjectCommand(uploadParams));
 
-    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
+await s3.send(new PutObjectCommand(uploadParams));
+
+const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileKey}`;
+
 
     const vehicleData = {
       make: form.get('make'),

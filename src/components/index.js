@@ -1,8 +1,8 @@
-import { Navbar, Footer } from '../components';
+// import { Navbar, Footer } from '../components';
 
 
-export {
-  Navbar,
+// export {
+//   Navbar,
 
  
-}
+// }
