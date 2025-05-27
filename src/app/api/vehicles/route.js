@@ -1,11 +1,9 @@
 // src/app/api/vehicles/route.js
 
 import { NextResponse } from 'next/server';
-// import { connectToDatabase } from '@/lib/dbConnect'; 
-// import Vehicles from '@/models/Vehicle';
+
 
 import {connectToDatabase} from './../../../lib/dbConnect';
-
 import Vehicles from './../../../models/Vehicle';
 
 export async function GET() {
