@@ -1,83 +1,115 @@
-'use client';
 
-import { useState } from 'react';
+// import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+// import { v4 as uuidv4 } from 'uuid';
+// import Vehicle from './../../../../models/Vehicle';
+// import { connectToDatabase } from './../../../../lib/dbConnect';
+// import { NextResponse } from 'next/server';
 
-export default function UploadVehiclePage() {
-  const [formData, setFormData] = useState({
-    make: '',
-    model: '',
-    year: '',
-    vin: '',
-    mileage: '',
-    color: '',
-    image: null,
-  });
+// const s3 = new S3Client({
+//   region: process.env.AWS_REGION,
+//   credentials: {
+//     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//   },
+// });
 
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+// export async function POST(request) {
+//   try {
+//     await connectToDatabase();
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files ? files[0] : value,
-    });
-  };
+//     const form = await request.formData();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage('');
+//     const imageFile = form.get('image');
+//     const buffer = Buffer.from(await imageFile.arrayBuffer());
 
-    const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
-    });
+//     const fileName = `${uuidv4()}-${imageFile.name}`;
+//     const uploadParams = {
+//       Bucket: process.env.AWS_S3_BUCKET_NAME,
+//       Key: fileName,
+//       Body: buffer,
+//       ContentType: imageFile.type,
+//     };
 
-    try {
-      const res = await fetch('/api/vehicles/upload', {
-        method: 'POST',
-        body: data,
-      });
+//     await s3.send(new PutObjectCommand(uploadParams));
 
-      const result = await res.json();
-      if (res.ok) {
-        setMessage('Vehicle uploaded successfully!');
-        setFormData({
-          make: '',
-          model: '',
-          year: '',
-          vin: '',
-          mileage: '',
-          color: '',
-          image: null,
-        });
-      } else {
-        setMessage(result.error || 'Upload failed.');
-      }
-    } catch (error) {
-      setMessage('Something went wrong!');
-    } finally {
-      setLoading(false);
-    }
-  };
+//     const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
-  return (
-    <div className="upload-form-container">
-      <h1>Upload a Vehicle</h1>
-      <form onSubmit={handleSubmit} encType="multipart/form-data" className="upload-form">
-        <input name="make" placeholder="Make" value={formData.make} onChange={handleChange} required />
-        <input name="model" placeholder="Model" value={formData.model} onChange={handleChange} required />
-        <input name="year" type="number" placeholder="Year" value={formData.year} onChange={handleChange} required />
-        <input name="vin" placeholder="VIN" value={formData.vin} onChange={handleChange} required />
-        <input name="mileage" type="number" placeholder="Mileage" value={formData.mileage} onChange={handleChange} required />
-        <input name="color" placeholder="Color" value={formData.color} onChange={handleChange} required />
-        <input type="file" name="image" accept="image/*" onChange={handleChange} required />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Uploading...' : 'Submit'}
-        </button>
-      </form>
-      {message && <p className="form-message">{message}</p>}
-    </div>
-  );
+//     const vehicleData = {
+//       make: form.get('make'),
+//       model: form.get('model'),
+//       year: parseInt(form.get('year')),
+//       vin: form.get('vin'),
+//       mileage: parseInt(form.get('mileage')),
+//       color: form.get('color'),
+//       price: parseFloat(form.get('price')), // ✅ this is what you were asking about
+//       imageUrl,
+//     };
+
+//     const vehicle = await Vehicle.create(vehicleData);
+
+//     return NextResponse.json({ success: true, data: vehicle });
+//   } catch (error) {
+//     console.error('Upload error:', error);
+//     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+//   }
+// }
+
+
+
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { v4 as uuidv4 } from 'uuid';
+import Vehicle from './../../../../models/Vehicle';
+import { connectToDatabase } from './../../../../lib/dbConnect';
+import { NextResponse } from 'next/server';
+
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+export async function POST(request) {
+  try {
+    await connectToDatabase();
+
+    const form = await request.formData();
+
+    const imageFile = form.get('image');
+    const buffer = Buffer.from(await imageFile.arrayBuffer());
+
+   const safeFileName = imageFile.name.replace(/\s+/g, '-').toLowerCase();
+const year = form.get('year'); // Make sure you extract this before using it
+
+const uploadParams = {
+  Bucket: process.env.AWS_S3_BUCKET_NAME,
+  Key: `vehicles/${year}/${uuidv4()}-${safeFileName}`,
+  Body: buffer,
+  ContentType: imageFile.type,
+  CacheControl: 'public, max-age=31536000',
+};
+
+    await s3.send(new PutObjectCommand(uploadParams));
+
+    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
+
+    const vehicleData = {
+      make: form.get('make'),
+      model: form.get('model'),
+      year: parseInt(form.get('year')),
+      vin: form.get('vin'),
+      mileage: parseInt(form.get('mileage')),
+      color: form.get('color'),
+      price: parseFloat(form.get('price')), // 
+      imageUrl,
+    };
+
+    const vehicle = await Vehicle.create(vehicleData);
+
+    return NextResponse.json({ success: true, data: vehicle });
+  } catch (error) {
+    console.error('Upload error:', error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
 }
