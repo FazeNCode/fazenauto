@@ -4,13 +4,13 @@ export const navLinks = [
     title: "Home",
   },
   {
-    id: "dealership",
-    title: "Dealership",
+    id: "inventory",
+    title: "Inventory",
     subLinks: [
-      { id: "about", title: "About Us" },
-      { id: "contact", title: "Contact Us" },
-      { id: "feedback", title: "Feedback" },
-      { id: "vehicle", title: "Vehicle" }
+      { id: "used-cars", title: "Qualtiy Used Cars" },
+      { id: "performance-cars", title: "High Performance" },
+      { id: "special-offer", title: "Special Offer" },
+      { id: "sell-or-trade", title: "Sell or Trade" }
     ],
   },
   {
@@ -18,7 +18,7 @@ export const navLinks = [
     title: "Services",
   },
   {
-    id: "login",
-    title: "Login",
+    id: "dealer-login",
+    title: "Dealer Login",
   },
 ];

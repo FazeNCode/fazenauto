@@ -2,7 +2,8 @@
 import "./globals.css";
 
 import Navbar from "../components/Navbar/Navbar";
-import Vehicle from "../components/Vehicle/Vehicle";
+// import Vehicle from "../components/Vehicle/Vehicle";
+import Vehicle from "../app/vehicles/page"
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
