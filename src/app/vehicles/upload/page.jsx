@@ -1,4 +1,3 @@
-
 // src/app/vehicles/upload/page.jsx
 
 'use client';
@@ -21,9 +20,19 @@ export default function UploadForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
-      <input type="file" name="file" required />
+    <form onSubmit={handleSubmit} encType="multipart/form-data" className="upload-form">
+      <h1>Upload a Vehicle</h1>
+
+      <input name="make" placeholder="Make" required />
+      <input name="model" placeholder="Model" required />
+      <input name="year" type="number" placeholder="Year" required />
+      <input name="vin" placeholder="VIN" required />
+      <input name="mileage" type="number" placeholder="Mileage" required />
+      <input name="color" placeholder="Color" required />
+      <input type="file" name="image" accept="image/*" required />
+
       <button type="submit">Upload</button>
+
       {message && <p>{message}</p>}
     </form>
   );

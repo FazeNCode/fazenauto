@@ -1,18 +1,26 @@
 import mongoose from 'mongoose';
 
-const connection = {};
+let isConnected = false; // track the connection
 
-async function dbConnect() {
-  if (connection.isConnected) {
-    return;
-  }
+export async function connectToDatabase() {
+  if (isConnected) return;
 
   const uri = process.env.MONGO_URI;
-  if (!uri) throw new Error("MONGO_URI not found in environment variables");
+  if (!uri) {
+    throw new Error("Please define the MONGODB_URI environment variable");
+  }
 
-  const db = await mongoose.connect(uri);
-  connection.isConnected = db.connections[0].readyState;
-  console.log("MongoDB connected");
+  try {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      dbName: 'your_db_name', // optional
+    });
+
+    isConnected = true;
+    console.log("MongoDB connected");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+    throw err;
+  }
 }
-
-export default dbConnect;
