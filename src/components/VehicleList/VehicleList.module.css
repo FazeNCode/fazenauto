@@ -1,101 +1,91 @@
-/* src/components/VehicleList/VehicleList.module.css */
-.container {
+
+
+
+ .vehicleGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
-  padding: 1.5rem;
-}
-
-.card {
-  border: 1px solid #e1e1e1;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  background-color: white;
-  transition: transform 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.cardContent {
-  padding: 1rem;
-}
-
-.title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.details {
-  font-size: 0.9rem;
-  color: #444;
-  line-height: 1.4;
-}
-
-.actions {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-}
-
-.actions button {
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s ease;
-}
-
-.actions button:hover {
-  opacity: 0.9;
-}
-
-.actions button:first-child {
-  background-color: #0070f3;
-}
-
-.deleteButton {
-  background-color: #e00;
-}
-
-.deleteButton:hover {
-  background: #c00;
-}
-
-.vehicleGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
   padding: 1rem;
 }
 
 .vehicleCard {
-  background: white;
-  padding: 1rem;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  color: #000000;
- 
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.vehicleCard:hover {
+  transform: translateY(-4px);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
 }
 
 .vehicleImage {
   width: 100%;
-  height: auto;
-  border-radius: 8px;
+  height: 100%;
   object-fit: cover;
-  margin-bottom: 1rem;
 }
 
+.priceTag {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #d90429;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.vehicleCard h3 {
+  font-size: 1.2rem;
+  margin: 0.8rem;
+  margin-bottom: 0.2rem;
+}
+
+.vehicleCard p {
+  margin: 0.2rem 0.8rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+  margin-top: auto;
+}
+
+.actions button {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.actions button:hover {
+  background-color: #005bb5;
+}
+
+.deleteButton {
+  background-color: #e63946;
+}
+
+.deleteButton:hover {
+  background-color: #b02a37;
+}

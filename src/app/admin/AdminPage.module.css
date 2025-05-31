@@ -1,0 +1,12 @@
+/* src/app/admin/AdminPage.module.css */
+.adminDashboard {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
