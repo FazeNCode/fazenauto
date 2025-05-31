@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 const vehicleSchema = new Schema(
   {
     vin: { type: String, required: true, unique: true },
+    imageHash: { type: String, required: true },
     make: { type: String, required: true },
     model: { type: String, required: true },
     color: { type: String, required: true },
@@ -12,6 +13,9 @@ const vehicleSchema = new Schema(
     location: { type: String },
     imageUrl: { type: String }, // S3 image URL
     cargurus: { type: String },
+    engine: { type: String, required: true, unique: true },          
+    drivetrain: { type: String, required: true, unique: true },       
+    transmission: { type: String, required: true, unique: true },     
   },
   {
     timestamps: true, // ⏱️ Automatically adds createdAt and updatedAt

@@ -7,8 +7,8 @@ export const navLinks = [
     id: "inventory",
     title: "Inventory",
     subLinks: [
-      { id: "used-cars", title: "Qualtiy Used Cars" },
-      { id: "performance-cars", title: "High Performance" },
+      { id: "inventory/used-cars", title: "Qualtiy Used Cars" },
+      // { id: "performance-cars", title: "High Performance" },
       { id: "special-offer", title: "Special Offer" },
       { id: "sell-or-trade", title: "Sell or Trade" }
     ],
@@ -22,3 +22,4 @@ export const navLinks = [
     title: "Dealer Login",
   },
 ];
+

@@ -1,28 +1,7 @@
-// // lib/dbConnect.jsx
-// import mongoose from 'mongoose';
-
-// let isConnected = false; // Track the connection status
-
-// export async function connectToDatabase() {
-//   if (isConnected) return;
-
-//   const uri = process.env.MONGO_URI;
-//   if (!uri) {
-//     throw new Error("Please define the MONGO_URI environment variable in your .env or .env.local file");
-//   }
-
-//   try {
-//     await mongoose.connect(uri); // Cleaned: no deprecated options
-//     isConnected = true;
-//     console.log("✅ MongoDB connected");
-//   } catch (err) {
-//     console.error("❌ MongoDB connection error:", err);
-//     throw err;
-//   }
-// }
 
 
 // lib/dbConnect.js
+// Connected to MongoDB using Mongoose
 import mongoose from 'mongoose';
 
 const MONGO_URI = process.env.MONGO_URI;
