@@ -2,10 +2,6 @@
 // Connected to MongoDB using Mongoose
 import mongoose from 'mongoose';
 
-const MONGO_URI = process.env.MONGO_URI;
-
-if (!MONGO_URI) throw new Error('Please define the MONGO_URI');
-
 let cached = global.mongoose;
 
 if (!cached) {
@@ -13,6 +9,13 @@ if (!cached) {
 }
 
 export async function connectToDatabase() {
+  // Check for MONGO_URI only when actually connecting
+  const MONGO_URI = process.env.MONGO_URI;
+
+  if (!MONGO_URI) {
+    throw new Error('Please define the MONGO_URI environment variable');
+  }
+
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
