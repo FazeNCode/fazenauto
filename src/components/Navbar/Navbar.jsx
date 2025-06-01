@@ -65,6 +65,18 @@ const Navbar = () => {
     setToggle(false); // Close mobile menu
   };
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.nav-item')) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
     <nav className={`navbar ${isLargeScreen ? "navbar-large" : "navbar-small"}`}>
       <div className="navbar-container">
