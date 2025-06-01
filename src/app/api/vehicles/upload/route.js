@@ -6,10 +6,10 @@ import { connectToDatabase } from './../../../../lib/dbConnect';
 import { NextResponse } from 'next/server';
 
 const s3 = new S3Client({
-  region: process.env.AWS_REGION,
+  region: process.env.CUSTOM_AWS_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.CUSTOM_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.CUSTOM_AWS_SECRET_ACCESS_KEY,
   },
 });
 
@@ -46,7 +46,7 @@ for (let [key, value] of form.entries()) {
     const fileKey = `vehicles/${year}/${uuidv4()}-${safeFileName}`;
 
     const uploadParams = {
-      Bucket: process.env.AWS_S3_BUCKET_NAME,
+      Bucket: process.env.CUSTOM_AWS_S3_BUCKET_NAME,
       Key: fileKey,
       Body: buffer,
       ContentType: imageFile.type,
@@ -55,7 +55,7 @@ for (let [key, value] of form.entries()) {
 
     await s3.send(new PutObjectCommand(uploadParams));
 
-    const imageUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileKey}`;
+    const imageUrl = `https://${process.env.CUSTOM_AWS_S3_BUCKET_NAME}.s3.${process.env.CUSTOM_AWS_REGION}.amazonaws.com/${fileKey}`;
 
     const vehicleData = {
       make: form.get('make'),
