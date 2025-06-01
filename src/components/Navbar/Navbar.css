@@ -196,8 +196,11 @@
   flex-direction: column;
   list-style: none;
   max-height: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: max-height 0.4s ease;
+  max-height: 300px; /* or whatever is reasonable */
+  overflow-y: auto;
+  
 }
 
 .dropdown.open .dropdown-menu {
