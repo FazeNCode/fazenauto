@@ -6,13 +6,22 @@ import Vehicle from '@/models/Vehicle';
 
 export async function GET() {
   try {
+    console.log('🔍 Starting GET /api/vehicles');
+    console.log('🔍 MONGO_URI exists:', !!process.env.MONGO_URI);
+
     await connectToDatabase();
+    console.log('🔍 Database connected successfully');
+
     const vehicles = await Vehicle.find({});
+    console.log('🔍 Found vehicles:', vehicles.length);
+
     return NextResponse.json({ success: true, data: vehicles });
   } catch (error) {
     console.error('❌ Error in GET /api/vehicles:', error);
+    console.error('❌ Error stack:', error.stack);
+    console.error('❌ Error message:', error.message);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch vehicles' },
+      { success: false, error: 'Failed to fetch vehicles', details: error.message },
       { status: 500 }
     );
   }
