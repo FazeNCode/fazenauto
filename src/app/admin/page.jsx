@@ -3,7 +3,10 @@ import styles from './AdminPage.module.css';
 import VehicleList from '@/components/VehicleList/VehicleList';
 
 async function getVehicles() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/vehicles`, {
+  // For server-side rendering, we need to use the full URL
+  // In production, this should be set to your actual domain
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const res = await fetch(`${baseUrl}/api/vehicles`, {
     cache: 'no-store',
   });
   const data = await res.json();
