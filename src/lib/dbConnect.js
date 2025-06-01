@@ -1,5 +1,3 @@
-
-
 // lib/dbConnect.js
 // Connected to MongoDB using Mongoose
 import mongoose from 'mongoose';
