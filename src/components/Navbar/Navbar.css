@@ -196,25 +196,16 @@
   flex-direction: column;
   list-style: none;
   max-height: 0;
-  /* overflow: hidden; */
-  transition: max-height 0.4s ease;
-  max-height: 300px; /* or whatever is reasonable */
-  overflow-y: auto;
-  
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
 }
 
-.dropdown.open .dropdown-menu {
-  max-height: 500px;
-}
-
-
-/* This will now work */
 .dropdown-menu.show {
-  max-height: 500px;
-}
-
-.dropdown.open .dropdown-menu {
-  max-height: 500px;
+  max-height: 300px;
+  opacity: 1;
+  visibility: visible;
 }
 
 .dropdown-menu li,

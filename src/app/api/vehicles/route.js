@@ -10,7 +10,10 @@ export async function GET() {
     console.log('🔍 API route called');
     console.log('🔍 Environment:', {
       hasMongoUri: !!process.env.MONGO_URI,
-      nodeEnv: process.env.NODE_ENV
+      mongoUriLength: process.env.MONGO_URI ? process.env.MONGO_URI.length : 0,
+      mongoUriStart: process.env.MONGO_URI ? process.env.MONGO_URI.substring(0, 20) + '...' : 'undefined',
+      nodeEnv: process.env.NODE_ENV,
+      allEnvKeys: Object.keys(process.env).filter(key => key.includes('MONGO') || key.includes('AWS'))
     });
 
     await connectToDatabase();

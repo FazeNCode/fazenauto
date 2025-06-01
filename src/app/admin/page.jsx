@@ -1,20 +1,36 @@
 // src/app/admin/page.jsx
+'use client';
+import { useEffect, useState } from 'react';
 import styles from './AdminPage.module.css';
 import VehicleList from '@/components/VehicleList/VehicleList';
 
-async function getVehicles() {
-  // For server-side rendering, we need to use the full URL
-  // In production, this should be set to your actual domain
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/vehicles`, {
-    cache: 'no-store',
-  });
-  const data = await res.json();
-  return data.data || [];
-}
+export default function AdminPage() {
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-export default async function AdminPage() {
-  const vehicles = await getVehicles();
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const res = await fetch('/api/vehicles');
+        const data = await res.json();
+        if (data.success) {
+          setVehicles(data.data || []);
+        } else {
+          throw new Error(data.error || 'Failed to fetch vehicles');
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
+  }, []);
+
+  if (loading) return <div>Loading vehicles...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className={styles.adminDashboard}>
