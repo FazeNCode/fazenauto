@@ -4,10 +4,14 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/dbConnect';
 import Vehicle from '@/models/Vehicle';
 
+// 🚗 GET /api/vehicles - Fetch all vehicles
 export async function GET() {
   try {
-    console.log('🔍 Starting GET /api/vehicles');
-    console.log('🔍 MONGO_URI exists:', !!process.env.MONGO_URI);
+    console.log('🔍 API route called');
+    console.log('🔍 Environment:', {
+      hasMongoUri: !!process.env.MONGO_URI,
+      nodeEnv: process.env.NODE_ENV
+    });
 
     await connectToDatabase();
     console.log('🔍 Database connected successfully');
@@ -27,6 +31,7 @@ export async function GET() {
   }
 }
 
+// 🚗 POST /api/vehicles - Create a new vehicle
 export async function POST(req) {
   try {
     await connectToDatabase();
@@ -41,3 +46,5 @@ export async function POST(req) {
     );
   }
 }
+
+

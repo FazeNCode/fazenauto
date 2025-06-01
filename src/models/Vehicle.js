@@ -13,9 +13,9 @@ const vehicleSchema = new Schema(
     location: { type: String },
     imageUrl: { type: String }, // S3 image URL
     cargurus: { type: String },
-    engine: { type: String, required: true },
-    drivetrain: { type: String, required: true },
-    transmission: { type: String, required: true },
+    engine: { type: String, required: true, unique: true },
+    drivetrain: { type: String, required: true, unique: true },
+    transmission: { type: String, required: true, unique: true },
   },
   {
     timestamps: true, // ⏱️ Automatically adds createdAt and updatedAt
