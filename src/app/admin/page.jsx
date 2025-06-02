@@ -1,10 +1,12 @@
 // src/app/admin/page.jsx
 'use client';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './AdminPage.module.css';
 import VehicleTable from '@/components/VehicleTable/VehicleTable';
 
 export default function AdminPage() {
+  const router = useRouter();
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -65,7 +67,15 @@ export default function AdminPage() {
   return (
     <div className={styles.adminDashboard}>
       <div className={styles.header}>
-        <h1>Vehicle Inventory Management</h1>
+        <div className={styles.headerTop}>
+          <h1>Vehicle Inventory Management</h1>
+          <button
+            onClick={() => router.push('/vehicles/upload')}
+            className={styles.uploadBtn}
+          >
+            Upload New Vehicle
+          </button>
+        </div>
         <div className={styles.stats}>
           <div className={styles.statCard}>
             <h3>Total Vehicles</h3>

@@ -37,21 +37,28 @@
 
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import './Sidebar.css'; // You'll create this CSS file
 
 const navItems = [
-  { label: 'Vehicles', href: '/admin/vehicles' },
-  { label: 'Upload New', href: '/admin/upload' },
-  { label: 'Dealers', href: '/admin/dealers' },
+  { label: 'Dashboard', href: '/admin' },
+  { label: 'Upload New', href: '/vehicles/upload' },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Clear user session
+    localStorage.removeItem('user');
+    // Redirect to login page
+    router.push('/login');
+  };
 
   return (
     <div className="sidebar">
-      <h2 className="sidebar-title">Fazen Auto Admin</h2>
+      <h2 className="sidebar-title">Admin Portal</h2>
       <nav>
         <ul>
           {navItems.map(({ label, href }) => (
@@ -61,6 +68,11 @@ export default function Sidebar() {
           ))}
         </ul>
       </nav>
+      <div className="sidebar-footer">
+        <button onClick={handleLogout} className="logout-btn">
+          Logout
+        </button>
+      </div>
     </div>
   );
 }

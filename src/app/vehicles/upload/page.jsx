@@ -2,6 +2,7 @@
 
 'use client';
 import { useState } from 'react';
+import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
 import styles from './UploadForm.module.css';
 
 export default function UploadForm() {
@@ -31,9 +32,10 @@ export default function UploadForm() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.formWrapper}>
-        <h1 className={styles.title}>Upload a Vehicle</h1>
+    <ProtectedRoute>
+      <div className={styles.container}>
+        <div className={styles.formWrapper}>
+          <h1 className={styles.title}>Upload a Vehicle</h1>
 
         <form onSubmit={handleSubmit} encType="multipart/form-data" className={styles.form}>
 
@@ -183,5 +185,6 @@ export default function UploadForm() {
         </form>
       </div>
     </div>
+    </ProtectedRoute>
   );
 }

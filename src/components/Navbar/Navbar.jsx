@@ -107,7 +107,12 @@ const Navbar = () => {
                     <ul className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
                       {link.subLinks.map((sub) => (
                         <li key={sub.id} className="dropdown-item">
-                          <Link href={`/${sub.id}`}>{sub.title}</Link>
+                          <Link
+                            href={`/${sub.id}`}
+                            onClick={() => handleLinkClick(sub.title)}
+                          >
+                            {sub.title}
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -144,7 +149,12 @@ const Navbar = () => {
                   <ul className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
                     {link.subLinks.map((sub) => (
                       <li key={sub.id} className="dropdown-item">
-                        <Link href={`/${sub.id}`}>{sub.title}</Link>
+                        <Link
+                          href={`/${sub.id}`}
+                          onClick={() => handleLinkClick(sub.title)}
+                        >
+                          {sub.title}
+                        </Link>
                       </li>
                     ))}
                   </ul>
