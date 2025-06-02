@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import styles from './login.module.css';
 
 const DealerLogin = () => {
   const [email, setEmail] = useState('');
@@ -41,23 +42,25 @@ const DealerLogin = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
-        <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">
-          Dealer Login
-        </h1>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        {/* Header */}
+        <div className={styles.header}>
+          <h1>🔐 Dealer Login</h1>
+          <p>Secure access to FazeNAuto admin dashboard</p>
+        </div>
 
+        {/* Error Message */}
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          <div className={styles.errorAlert}>
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-600 mb-1">
-              Email
-            </label>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
@@ -65,13 +68,12 @@ const DealerLogin = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your authorized email"
-              className="w-full px-4 py-2 border rounded-lg text-gray-900 focus:outline-none focus:ring focus:ring-blue-300"
+              className={styles.input}
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-600 mb-1">
-              Password
-            </label>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
@@ -79,21 +81,20 @@ const DealerLogin = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Enter your password"
-              className="w-full px-4 py-2 border rounded-lg text-gray-900 focus:outline-none focus:ring focus:ring-blue-300"
+              className={styles.input}
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-500 text-white py-2 my-2 rounded-lg hover:bg-blue-600 transition duration-300 disabled:opacity-50">
+            className={styles.submitBtn}
+          >
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
 
-          <div className="text-center mt-4">
-            <p className="text-sm text-gray-600">
-              Access restricted to authorized dealers only
-            </p>
+          <div className={styles.footer}>
+            <p>Access restricted to authorized dealers only</p>
           </div>
         </form>
       </div>
