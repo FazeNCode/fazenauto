@@ -1,5 +1,6 @@
 .admin-layout {
   display: flex;
+  position: relative;
 }
 
 .admin-content {
@@ -8,4 +9,24 @@
   width: 100%;
   background-color: #f9fafb;
   min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-content {
+    margin-left: 0;
+    padding: 1rem;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-content {
+    padding: 0.5rem;
+  }
 }

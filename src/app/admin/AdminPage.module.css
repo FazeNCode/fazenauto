@@ -9,10 +9,33 @@
   margin-bottom: 2rem;
 }
 
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
 .header h1 {
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  margin: 0;
   color: #333;
+}
+
+.uploadBtn {
+  background: #48bb78;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 1rem;
+}
+
+.uploadBtn:hover {
+  background: #38a169;
 }
 
 .stats {

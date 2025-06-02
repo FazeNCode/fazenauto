@@ -2,9 +2,11 @@
 
 'use client';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './QualityUsedCars.module.css';
 
 export default function QualityUsedCars() {
+  const router = useRouter();
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -86,10 +88,6 @@ export default function QualityUsedCars() {
             <span className={styles.statNumber}>As-Is</span>
             <span className={styles.statLabel}>Pricing</span>
           </div>
-          <div className={styles.statCard}>
-            <span className={styles.statNumber}>5★</span>
-            <span className={styles.statLabel}>Customer Rating</span>
-          </div>
         </div>
 
         {/* Vehicle Grid */}
@@ -107,6 +105,7 @@ export default function QualityUsedCars() {
                   src={vehicle.imageUrl}
                   alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
                   className={styles.vehicleImage}
+                  onClick={() => router.push(`/vehicles/${vehicle._id}`)}
                 />
 
                 <div className={styles.vehicleInfo}>
@@ -152,7 +151,10 @@ export default function QualityUsedCars() {
                   </div>
 
                   <div className={styles.buttonGroup}>
-                    <button className={styles.viewDetailsBtn}>
+                    <button
+                      className={styles.viewDetailsBtn}
+                      onClick={() => router.push(`/vehicles/${vehicle._id}`)}
+                    >
                       View Details
                     </button>
                     <button className={styles.contactBtn}>
