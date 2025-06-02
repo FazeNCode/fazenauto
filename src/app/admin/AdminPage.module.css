@@ -5,8 +5,42 @@
   min-height: 100vh;
 }
 
-.h1 {
+.header {
+  margin-bottom: 2rem;
+}
+
+.header h1 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
   color: #333;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.statCard h3 {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statCard p {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
 }

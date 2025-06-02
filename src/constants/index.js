@@ -18,7 +18,7 @@ export const navLinks = [
     title: "Services",
   },
   {
-    id: "dealer-login",
+    id: "login",
     title: "Dealer Login",
   },
 ];
