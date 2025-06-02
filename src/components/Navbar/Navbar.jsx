@@ -3,19 +3,19 @@ import React, { useState, useEffect } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { navLinks } from "../../constants";
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import "./Navbar.css";
-import flogo from "../../assets/flogo.png";
+// import flogo from "../../assets/flogo.png";
 
 const Logo = () => (
   <div className="logo-container">
-    <Image
+    {/* <Image
       src={flogo}
       alt="logo"
       className="logo-image"
       width={120}
       height={96}
-    />
+    /> */}
     <p className="logo-text">
       <span className="logo-text-desktop">FazeNAuto</span>
     </p>
@@ -92,7 +92,7 @@ const Navbar = () => {
         <div className={`mobile-menu ${toggle ? "show" : "hide"}`}>
           <ul className="nav-list mobile-list">
             {navLinks.map((link) => (
-              <li key={link.id} className="nav-item">
+              <li key={link.id} className={`nav-item ${link.subLinks && dropdownOpen ? 'dropdown-open' : ''}`}>
                 {link.subLinks ? (
                   <>
                     <a
@@ -139,7 +139,7 @@ const Navbar = () => {
                       handleDropdownToggle();
                     }}
                   >
-                    {link.title} <span>{dropdownOpen ? "▲" : "▼"}</span>
+                    {link.title}
                   </a>
                   <ul className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
                     {link.subLinks.map((sub) => (
