@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { navLinks } from "../../constants";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 // import Image from "next/image";
 import "./Navbar.css";
 // import flogo from "../../assets/flogo.png";
@@ -36,10 +37,13 @@ const MobileNav = ({ toggle, setToggle }) => (
 );
 
 const Navbar = () => {
+  const router = useRouter();
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -57,6 +61,26 @@ const Navbar = () => {
     }
   }, []);
 
+  // Check for authentication status
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      try {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          if (userData && userData.email && userData.role) {
+            setUser(userData);
+          }
+        }
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+        localStorage.removeItem('user');
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
   const handleDropdownToggle = () => setDropdownOpen((prev) => !prev);
 
   const handleLinkClick = (title) => {
@@ -65,11 +89,28 @@ const Navbar = () => {
     setToggle(false); // Close mobile menu
   };
 
+  const handleUserDropdownToggle = () => setUserDropdownOpen((prev) => !prev);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    setUserDropdownOpen(false);
+    router.push('/');
+  };
+
+  const getUserDisplayName = () => {
+    if (!user) return '';
+    // Extract first name from email or use email
+    const emailName = user.email.split('@')[0];
+    return emailName.charAt(0).toUpperCase() + emailName.slice(1);
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.nav-item')) {
         setDropdownOpen(false);
+        setUserDropdownOpen(false);
       }
     };
 
@@ -91,7 +132,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div className={`mobile-menu ${toggle ? "show" : "hide"}`}>
           <ul className="nav-list mobile-list">
-            {navLinks.map((link) => (
+            {navLinks.filter(link => link.id !== 'login').map((link) => (
               <li key={link.id} className={`nav-item ${link.subLinks && dropdownOpen ? 'dropdown-open' : ''}`}>
                 {link.subLinks ? (
                   <>
@@ -120,7 +161,7 @@ const Navbar = () => {
                 ) : (
                   <Link
                     className={`nav-link ${active === link.title ? "active" : ""}`}
-                    href={`/${link.id}`}
+                    href={link.id === "home" ? "/" : `/${link.id}`}
                     onClick={() => handleLinkClick(link.title)}
                   >
                     {link.title}
@@ -128,12 +169,48 @@ const Navbar = () => {
                 )}
               </li>
             ))}
+
+            {/* User Authentication Section - Mobile */}
+            <li className="nav-item user-auth-mobile">
+              {user ? (
+                <div className="user-dropdown-mobile">
+                  <a
+                    className="nav-link user-link"
+                    onClick={handleUserDropdownToggle}
+                  >
+                    <span className="user-icon">👤</span>
+                    {getUserDisplayName()}
+                    <span>{userDropdownOpen ? "▲" : "▼"}</span>
+                  </a>
+                  <ul className={`dropdown-menu user-dropdown ${userDropdownOpen ? "show" : ""}`}>
+                    <li className="dropdown-item">
+                      <Link href="/admin" onClick={() => handleLinkClick('Dashboard')}>
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li className="dropdown-item">
+                      <a onClick={handleLogout} className="logout-link">
+                        Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <Link
+                  className="nav-link"
+                  href="/login"
+                  onClick={() => handleLinkClick('Dealer Login')}
+                >
+                  Dealer Login
+                </Link>
+              )}
+            </li>
           </ul>
         </div>
 
         {/* Desktop Menu */}
         <ul className="nav-list desktop-list">
-          {navLinks.map((link) => (
+          {navLinks.filter(link => link.id !== 'login').map((link) => (
             <li key={link.id} className="nav-item">
               {link.subLinks ? (
                 <>
@@ -144,7 +221,7 @@ const Navbar = () => {
                       handleDropdownToggle();
                     }}
                   >
-                    {link.title}
+                    {link.title} <span className="dropdown-arrow">{dropdownOpen ? "▲" : "▼"}</span>
                   </a>
                   <ul className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}>
                     {link.subLinks.map((sub) => (
@@ -162,7 +239,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   className={`nav-link ${active === link.title ? "active" : ""}`}
-                  href={`/${link.id}`}
+                  href={link.id === "home" ? "/" : `/${link.id}`}
                   onClick={() => handleLinkClick(link.title)}
                 >
                   {link.title}
@@ -170,6 +247,42 @@ const Navbar = () => {
               )}
             </li>
           ))}
+
+          {/* User Authentication Section - Desktop */}
+          <li className="nav-item user-auth-desktop">
+            {user ? (
+              <div className="user-dropdown-desktop">
+                <a
+                  className="nav-link user-link"
+                  onClick={handleUserDropdownToggle}
+                >
+                  <span className="user-icon">👤</span>
+                  {getUserDisplayName()}
+                  <span className="dropdown-arrow">{userDropdownOpen ? "▲" : "▼"}</span>
+                </a>
+                <ul className={`dropdown-menu user-dropdown ${userDropdownOpen ? "show" : ""}`}>
+                  <li className="dropdown-item">
+                    <Link href="/admin" onClick={() => handleLinkClick('Dashboard')}>
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className="dropdown-item">
+                    <a onClick={handleLogout} className="logout-link">
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <Link
+                className="nav-link"
+                href="/login"
+                onClick={() => handleLinkClick('Dealer Login')}
+              >
+                Dealer Login
+              </Link>
+            )}
+          </li>
         </ul>
       </div>
     </nav>
