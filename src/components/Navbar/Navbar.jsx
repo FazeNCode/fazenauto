@@ -105,7 +105,13 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleDropdownToggle = () => setDropdownOpen((prev) => !prev);
+  const handleDropdownToggle = () => {
+    setDropdownOpen((prev) => !prev);
+    // Close user dropdown when inventory dropdown opens
+    if (!dropdownOpen) {
+      setUserDropdownOpen(false);
+    }
+  };
 
   const handleLinkClick = (title) => {
     setActive(title);
@@ -113,7 +119,13 @@ const Navbar = () => {
     setToggle(false); // Close mobile menu
   };
 
-  const handleUserDropdownToggle = () => setUserDropdownOpen((prev) => !prev);
+  const handleUserDropdownToggle = () => {
+    setUserDropdownOpen((prev) => !prev);
+    // Close inventory dropdown when user dropdown opens
+    if (!userDropdownOpen) {
+      setDropdownOpen(false);
+    }
+  };
 
   const handleLogoutClick = () => {
     setShowLogoutConfirm(true);
@@ -134,9 +146,11 @@ const Navbar = () => {
 
   const getUserDisplayName = () => {
     if (!user) return '';
-    // Extract first name from email or use email
+    // Extract name from email (part before @)
     const emailName = user.email.split('@')[0];
-    return emailName.charAt(0).toUpperCase() + emailName.slice(1);
+    // Handle common email patterns like dealer@ali.com -> ali, john.doe@company.com -> john
+    const name = emailName.includes('.') ? emailName.split('.')[0] : emailName;
+    return name.charAt(0).toUpperCase() + name.slice(1);
   };
 
   // Close dropdown when clicking outside
@@ -171,29 +185,27 @@ const Navbar = () => {
                 className="user-link-mobile-top"
                 onClick={handleUserDropdownToggle}
               >
-                <span className="admin-portal-text">Admin Portal</span>
+                <span className="admin-portal-text">{getUserDisplayName()}</span>
                 <span className="user-icon">👤</span>
-                <span>{userDropdownOpen ? "▼" : "▼"}</span>
+                <span>{userDropdownOpen ? "▲" : "▼"}</span>
               </a>
-              {userDropdownOpen && (
-                <ul className="dropdown-menu user-dropdown-top show">
-                  <li className="dropdown-item">
-                    <Link href="/admin" onClick={() => handleLinkClick('Dashboard')}>
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li className="dropdown-item">
-                    <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
-                      Upload New
-                    </Link>
-                  </li>
-                  <li className="dropdown-item">
-                    <a onClick={handleLogoutClick} className="logout-link">
-                      Logout
-                    </a>
-                  </li>
-                </ul>
-              )}
+              <ul className={`dropdown-menu user-dropdown-top ${userDropdownOpen ? "show" : ""}`}>
+                <li className="dropdown-item">
+                  <Link href="/admin" onClick={() => handleLinkClick('Dashboard')}>
+                    Dashboard
+                  </Link>
+                </li>
+                <li className="dropdown-item">
+                  <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
+                    Upload New
+                  </Link>
+                </li>
+                <li className="dropdown-item">
+                  <a onClick={handleLogoutClick} className="logout-link">
+                    Logout
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         )}
