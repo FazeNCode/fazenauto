@@ -44,6 +44,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -91,11 +92,21 @@ const Navbar = () => {
 
   const handleUserDropdownToggle = () => setUserDropdownOpen((prev) => !prev);
 
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setShowLogoutConfirm(true);
+    setUserDropdownOpen(false);
+  };
+
+  const confirmLogout = () => {
     localStorage.removeItem('user');
     setUser(null);
     setUserDropdownOpen(false);
+    setShowLogoutConfirm(false);
     router.push('/');
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutConfirm(false);
   };
 
   const getUserDisplayName = () => {
@@ -151,7 +162,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li className="dropdown-item">
-                      <a onClick={handleLogout} className="logout-link">
+                      <a onClick={handleLogoutClick} className="logout-link">
                         Logout
                       </a>
                     </li>
@@ -279,7 +290,7 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li className="dropdown-item">
-                    <a onClick={handleLogout} className="logout-link">
+                    <a onClick={handleLogoutClick} className="logout-link">
                       Logout
                     </a>
                   </li>
@@ -297,6 +308,23 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="logout-modal-overlay">
+          <div className="logout-modal">
+            <h3>Are you sure you want to log out?</h3>
+            <div className="logout-modal-buttons">
+              <button onClick={confirmLogout} className="logout-confirm-btn">
+                Yes
+              </button>
+              <button onClick={cancelLogout} className="logout-cancel-btn">
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

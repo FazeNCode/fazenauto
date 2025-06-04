@@ -14,8 +14,8 @@
 
 /* Collapsed Sidebar State */
 .admin-layout.sidebar-collapsed .admin-content {
-  margin-left: 60px;
-  width: calc(100% - 60px);
+  margin-left: 0;
+  width: 100%;
 }
 
 /* Responsive Design Fixes */
@@ -35,8 +35,8 @@
   }
 
   .admin-layout.sidebar-collapsed .admin-content {
-    margin-left: 60px;
-    width: calc(100% - 60px);
+    margin-left: 0;
+    width: 100%;
   }
 }
 
@@ -49,8 +49,8 @@
   }
 
   .admin-layout.sidebar-collapsed .admin-content {
-    margin-left: 50px;
-    width: calc(100% - 50px);
+    margin-left: 0;
+    width: 100%;
   }
 }
 
