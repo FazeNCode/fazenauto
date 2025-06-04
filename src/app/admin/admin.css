@@ -6,14 +6,56 @@
 .admin-content {
   margin-left: 220px;
   padding: 2rem;
-  width: 100%;
+  width: calc(100% - 220px);
   background-color: #f9fafb;
   min-height: 100vh;
-  transition: margin-left 0.3s ease;
+  transition: margin-left 0.6s ease, width 0.6s ease;
+}
+
+/* Collapsed Sidebar State */
+.admin-layout.sidebar-collapsed .admin-content {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}
+
+/* Responsive Design Fixes */
+/* Large screens (1200px+) - Perfect as is */
+@media (min-width: 1200px) {
+  .admin-content {
+    padding: 2.5rem;
+  }
+}
+
+/* Medium-Large screens (1024px - 1199px) */
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .admin-content {
+    padding: 2rem 1.5rem;
+    margin-left: 200px;
+    width: calc(100% - 200px);
+  }
+
+  .admin-layout.sidebar-collapsed .admin-content {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+  }
+}
+
+/* Medium screens (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .admin-content {
+    padding: 1.5rem 1rem;
+    margin-left: 180px;
+    width: calc(100% - 180px);
+  }
+
+  .admin-layout.sidebar-collapsed .admin-content {
+    margin-left: 50px;
+    width: calc(100% - 50px);
+  }
 }
 
 /* Mobile Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .admin-layout {
     flex-direction: column;
   }
@@ -21,6 +63,11 @@
   .admin-content {
     margin-left: 0;
     padding: 1rem;
+    width: 100%;
+  }
+
+  .admin-layout.sidebar-collapsed .admin-content {
+    margin-left: 0;
     width: 100%;
   }
 }
