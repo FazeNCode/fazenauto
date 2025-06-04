@@ -36,58 +36,87 @@
 // }
 
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import './Sidebar.css'; // You'll create this CSS file
 
 const navItems = [
   { label: 'Dashboard', href: '/admin' },
+  { label: 'Upload New', href: '/vehicles/upload' },
 ];
 
 export default function Sidebar({ collapsed, onToggle }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = () => {
     // Clear user session
     localStorage.removeItem('user');
     // Redirect to login page
     router.push('/login');
   };
 
+  const cancelLogout = () => {
+    setShowLogoutConfirm(false);
+  };
+
   return (
-    <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
-      <div className="sidebar-header">
-        <h2 className="sidebar-title">
-          {collapsed ? 'AP' : 'Admin Portal'}
-        </h2>
-        <button
-          className="sidebar-toggle"
-          onClick={onToggle}
-          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-        >
-          {collapsed ? '»' : '«'}
-        </button>
+    <>
+      {/* Toggle Button - Always Visible */}
+      <button
+        className={`sidebar-toggle ${collapsed ? 'collapsed' : ''}`}
+        onClick={onToggle}
+        aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+      >
+        {collapsed ? '»' : '«'}
+      </button>
+
+      {/* Sidebar Content - Hidden when collapsed */}
+      <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+        <div className="sidebar-header">
+          <h2 className="sidebar-title">Admin Portal</h2>
+        </div>
+
+        <nav>
+          <ul>
+            {navItems.map(({ label, href }) => (
+              <li key={href} className={pathname === href ? 'active' : ''}>
+                <Link href={href}>{label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="sidebar-footer">
+          <button onClick={handleLogoutClick} className="logout-btn">
+            Logout
+          </button>
+        </div>
       </div>
 
-      <nav>
-        <ul>
-          {navItems.map(({ label, href }) => (
-            <li key={href} className={pathname === href ? 'active' : ''}>
-              <Link href={href} title={collapsed ? label : ''}>
-                {collapsed ? '📊' : label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <div className="sidebar-footer">
-        <button onClick={handleLogout} className="logout-btn" title={collapsed ? 'Logout' : ''}>
-          {collapsed ? '🚪' : 'Logout'}
-        </button>
-      </div>
-    </div>
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="logout-modal-overlay">
+          <div className="logout-modal">
+            <h3>Are you sure you want to log out?</h3>
+            <div className="logout-modal-buttons">
+              <button onClick={confirmLogout} className="logout-confirm-btn">
+                Yes
+              </button>
+              <button onClick={cancelLogout} className="logout-cancel-btn">
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
