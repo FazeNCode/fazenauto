@@ -31,6 +31,9 @@ const DealerLogin = () => {
         // Store user info in localStorage
         localStorage.setItem('user', JSON.stringify(data.data));
 
+        // Dispatch custom event to notify navbar of login
+        window.dispatchEvent(new Event('userLogin'));
+
         // Redirect to admin dashboard
         router.push('/admin');
       }

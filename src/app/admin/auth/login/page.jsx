@@ -26,6 +26,9 @@ export default function LoginPage() {
       // Optionally store login info in localStorage/session
       localStorage.setItem('user', JSON.stringify(data.data));
 
+      // Dispatch custom event to notify navbar of login
+      window.dispatchEvent(new Event('userLogin'));
+
       // Redirect to dashboard
       router.push('/admin');
     }

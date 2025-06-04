@@ -113,7 +113,7 @@ function ComingSoonContent() {
                 📧 info@fazenauto.com
               </span>
               <span className={styles.contactItem}>
-                📞 (555) 123-4567
+                📞 647-338-9110
               </span>
             </div>
           </div>

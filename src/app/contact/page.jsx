@@ -25,7 +25,7 @@ export default function Contact() {
                 <FaPhone className={styles.icon} />
                 <div>
                   <h3>Phone</h3>
-                  <p>(555) 123-4567</p>
+                  <p>647-338-9110</p>
                   <span>Call us during business hours</span>
                 </div>
               </div>
@@ -43,7 +43,7 @@ export default function Contact() {
                 <FaMapMarkerAlt className={styles.icon} />
                 <div>
                   <h3>Address</h3>
-                  <p>123 Auto Street<br />Your City, State 12345</p>
+                  <p>1120 Meighen Way</p>
                   <span>Visit our showroom</span>
                 </div>
               </div>

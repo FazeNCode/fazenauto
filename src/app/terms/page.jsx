@@ -70,7 +70,7 @@ export default function Terms() {
             </p>
             <div className={styles.contactInfo}>
               <p>Email: info@fazenauto.com</p>
-              <p>Phone: (555) 123-4567</p>
+              <p>Phone: 647-338-9110</p>
             </div>
           </section>
         </div>

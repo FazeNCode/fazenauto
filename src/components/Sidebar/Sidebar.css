@@ -257,85 +257,12 @@
   }
 }
 
-/* Mobile Responsive Design */
+/* Mobile Responsive Design - Hide sidebar completely, use navbar dropdown */
 @media (max-width: 767px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    padding: 1rem;
-    transition: none;
-  }
-
-  .sidebar.collapsed {
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .sidebar-header {
-    margin-bottom: 1rem;
-  }
-
+  .sidebar,
   .sidebar-toggle {
-    display: none; /* Hide toggle on mobile */
-  }
-
-  .sidebar-footer {
-    position: static;
-    margin-top: 1rem;
-    left: auto;
-    right: auto;
-  }
-
-  .sidebar-title {
-    font-size: 1.1rem;
-    margin-bottom: 0;
-    text-align: center;
-    width: 100%;
-  }
-
-  .sidebar nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .sidebar nav ul li {
-    margin-bottom: 0;
-  }
-
-  .sidebar nav ul li a {
-    padding: 0.75rem 1rem;
-    white-space: nowrap;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-
-  .logout-btn {
-    font-size: 0.9rem;
-    padding: 0.75rem 1rem;
+    display: none !important;
   }
 }
 
-@media (max-width: 480px) {
-  .sidebar {
-    padding: 0.75rem;
-  }
 
-  .sidebar-title {
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .sidebar nav ul {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .sidebar nav ul li a {
-    padding: 0.5rem 0.75rem;
-    text-align: center;
-    font-size: 0.85rem;
-  }
-}

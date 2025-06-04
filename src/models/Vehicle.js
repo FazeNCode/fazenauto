@@ -11,7 +11,8 @@ const vehicleSchema = new Schema(
     price: { type: Number, required: true },
     mileage: { type: Number, required: true },
     location: { type: String },
-    imageUrl: { type: String }, // S3 image URL
+    imageUrl: { type: String }, // S3 image URL (primary/main image for backward compatibility)
+    images: [{ type: String }], // Array of S3 image URLs for multiple images
     cargurus: { type: String },
     engine: { type: String, required: true },
     drivetrain: { type: String, required: true },
