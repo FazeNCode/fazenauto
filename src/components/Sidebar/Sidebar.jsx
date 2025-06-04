@@ -42,10 +42,9 @@ import './Sidebar.css'; // You'll create this CSS file
 
 const navItems = [
   { label: 'Dashboard', href: '/admin' },
-  { label: 'Upload New', href: '/vehicles/upload' },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ collapsed, onToggle }) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -57,20 +56,35 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="sidebar">
-      <h2 className="sidebar-title">Admin Portal</h2>
+    <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+      <div className="sidebar-header">
+        <h2 className="sidebar-title">
+          {collapsed ? 'AP' : 'Admin Portal'}
+        </h2>
+        <button
+          className="sidebar-toggle"
+          onClick={onToggle}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          {collapsed ? '»' : '«'}
+        </button>
+      </div>
+
       <nav>
         <ul>
           {navItems.map(({ label, href }) => (
             <li key={href} className={pathname === href ? 'active' : ''}>
-              <Link href={href}>{label}</Link>
+              <Link href={href} title={collapsed ? label : ''}>
+                {collapsed ? '📊' : label}
+              </Link>
             </li>
           ))}
         </ul>
       </nav>
+
       <div className="sidebar-footer">
-        <button onClick={handleLogout} className="logout-btn">
-          Logout
+        <button onClick={handleLogout} className="logout-btn" title={collapsed ? 'Logout' : ''}>
+          {collapsed ? '🚪' : 'Logout'}
         </button>
       </div>
     </div>

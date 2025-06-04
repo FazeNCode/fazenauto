@@ -8,13 +8,63 @@
   left: 0;
   top: 0;
   z-index: 1000;
-  transition: transform 0.3s ease;
+  transition: width 0.6s ease, padding 0.6s ease;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  padding: 1.5rem 0.5rem;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
 }
 
 .sidebar-title {
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 2rem;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-title {
+  font-size: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.sidebar-toggle {
+  background: #374151;
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.6s ease;
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+}
+
+.sidebar-toggle:hover {
+  background: #4b5563;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+  right: -12px;
 }
 
 .sidebar nav ul {
@@ -34,6 +84,15 @@
   padding: 0.5rem;
   border-radius: 4px;
   transition: background-color 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
+}
+
+.sidebar.collapsed nav ul li a {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 0.75rem 0.25rem;
 }
 
 .sidebar nav ul li.active a,
@@ -50,6 +109,11 @@
   right: 1rem;
 }
 
+.sidebar.collapsed .sidebar-footer {
+  left: 0.5rem;
+  right: 0.5rem;
+}
+
 .logout-btn {
   width: 100%;
   background: #dc2626;
@@ -61,30 +125,86 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .logout-btn {
+  font-size: 1.2rem;
+  padding: 0.75rem 0.25rem;
 }
 
 .logout-btn:hover {
   background: #b91c1c;
 }
 
+/* Responsive Design for Different Screen Sizes */
+
+/* Medium-Large screens (1024px - 1199px) */
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .sidebar.collapsed {
+    width: 60px;
+  }
+}
+
+/* Medium screens (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .sidebar {
+    width: 180px;
+  }
+
+  .sidebar.collapsed {
+    width: 50px;
+  }
+
+  .sidebar-title {
+    font-size: 1.1rem;
+  }
+
+  .sidebar.collapsed .sidebar-title {
+    font-size: 0.9rem;
+  }
+}
+
 /* Mobile Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .sidebar {
     width: 100%;
     height: auto;
     position: relative;
     padding: 1rem;
+    transition: none;
+  }
+
+  .sidebar.collapsed {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .sidebar-header {
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-toggle {
+    display: none; /* Hide toggle on mobile */
   }
 
   .sidebar-footer {
     position: static;
     margin-top: 1rem;
+    left: auto;
+    right: auto;
   }
 
   .sidebar-title {
     font-size: 1.1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     text-align: center;
+    width: 100%;
   }
 
   .sidebar nav ul {
@@ -102,6 +222,12 @@
     padding: 0.75rem 1rem;
     white-space: nowrap;
     font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .logout-btn {
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
   }
 }
 

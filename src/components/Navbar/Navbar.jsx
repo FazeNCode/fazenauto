@@ -122,9 +122,44 @@ const Navbar = () => {
     <nav className={`navbar ${isLargeScreen ? "navbar-large" : "navbar-small"}`}>
       <div className="navbar-container">
         {!toggle && (
-          <Link href="/" onClick={() => handleLinkClick("")}>
-            <Logo />
-          </Link>
+          <div className="navbar-left">
+            <Link href="/" onClick={() => handleLinkClick("")}>
+              <Logo />
+            </Link>
+
+            {/* Admin Portal User Section - Mobile Top Bar */}
+            {!isLargeScreen && user && (
+              <div className="admin-portal-mobile">
+                <span className="admin-portal-text">Admin Portal</span>
+                <div className="user-dropdown-mobile-top">
+                  <a
+                    className="user-link-mobile-top"
+                    onClick={handleUserDropdownToggle}
+                  >
+                    <span className="user-icon">👤</span>
+                    <span>{userDropdownOpen ? "▲" : "▼"}</span>
+                  </a>
+                  <ul className={`dropdown-menu user-dropdown-top ${userDropdownOpen ? "show" : ""}`}>
+                    <li className="dropdown-item">
+                      <Link href="/admin" onClick={() => handleLinkClick('Dashboard')}>
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li className="dropdown-item">
+                      <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
+                        Upload New
+                      </Link>
+                    </li>
+                    <li className="dropdown-item">
+                      <a onClick={handleLogout} className="logout-link">
+                        Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
         <MobileNav toggle={toggle} setToggle={setToggle} />
@@ -170,32 +205,9 @@ const Navbar = () => {
               </li>
             ))}
 
-            {/* User Authentication Section - Mobile */}
-            <li className="nav-item user-auth-mobile">
-              {user ? (
-                <div className="user-dropdown-mobile">
-                  <a
-                    className="nav-link user-link"
-                    onClick={handleUserDropdownToggle}
-                  >
-                    <span className="user-icon">👤</span>
-                    {getUserDisplayName()}
-                    <span>{userDropdownOpen ? "▲" : "▼"}</span>
-                  </a>
-                  <ul className={`dropdown-menu user-dropdown ${userDropdownOpen ? "show" : ""}`}>
-                    <li className="dropdown-item">
-                      <Link href="/admin" onClick={() => handleLinkClick('Dashboard')}>
-                        Dashboard
-                      </Link>
-                    </li>
-                    <li className="dropdown-item">
-                      <a onClick={handleLogout} className="logout-link">
-                        Logout
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              ) : (
+            {/* Show Dealer Login only if not authenticated */}
+            {!user && (
+              <li className="nav-item">
                 <Link
                   className="nav-link"
                   href="/login"
@@ -203,8 +215,8 @@ const Navbar = () => {
                 >
                   Dealer Login
                 </Link>
-              )}
-            </li>
+              </li>
+            )}
           </ul>
         </div>
 
