@@ -198,7 +198,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #1f2937;
+  background-color: rgba(31, 41, 55, 0.95);
   border-radius: 0.5rem;
   margin-top: 0.5rem;
   padding: 0;
@@ -213,6 +213,7 @@
   transition: max-height 0.3s ease;
   opacity: 0;
   visibility: hidden;
+  backdrop-filter: blur(10px);
 }
 
 .dropdown-menu.show {
@@ -287,7 +288,7 @@
 /* Admin Portal Mobile Section */
 .admin-portal-mobile {
   position: absolute;
-  right: 4rem; /* Position next to hamburger menu */
+  right: 4.5rem; /* Position next to hamburger menu with more space */
   top: 50%;
   transform: translateY(-50%);
   z-index: 25;
@@ -324,9 +325,10 @@
   position: absolute;
   top: 100%;
   right: 0;
-  background: #374151;
+  background: rgba(55, 65, 81, 0.95);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
   min-width: 150px;
   z-index: 1000;
   margin-top: 0.5rem;
@@ -378,11 +380,12 @@
   position: absolute;
   top: 100%;
   right: 0;
-  background: #1f2937;
+  background: rgba(31, 41, 55, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   min-width: 150px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
@@ -487,7 +490,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background: linear-gradient(145deg, #1f2937 0%, #374151 100%);
+    background: linear-gradient(145deg, rgba(31, 41, 55, 0.95) 0%, rgba(55, 65, 81, 0.95) 100%);
     border-radius: 12px;
     margin-top: 0.75rem;
     padding: 0.5rem 0;
@@ -497,6 +500,7 @@
       0 20px 25px -5px rgba(0, 0, 0, 0.3),
       0 10px 10px -5px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     list-style: none;
@@ -575,8 +579,9 @@
 
 /* User Dropdown Menu */
 .user-dropdown {
-  background: linear-gradient(145deg, #1f2937 0%, #374151 100%);
+  background: linear-gradient(145deg, rgba(31, 41, 55, 0.95) 0%, rgba(55, 65, 81, 0.95) 100%);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   left: auto !important;
   right: 1rem !important; /* Move away from scroll bar */
 }
