@@ -140,11 +140,12 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0;
 }
 
 .mobile-list .nav-item {
   margin: 1.5rem 0;
+  position: relative;
 }
 
 .mobile-list .nav-link {
@@ -224,9 +225,9 @@
 
 .dropdown-menu li,
 .dropdown-item {
-  margin: 0.25rem 0.5rem;
+  margin: 0;
   padding: 0;
-  border-radius: 8px;
+  border-radius: 0;
   transition: all 0.2s ease;
 }
 
@@ -238,15 +239,15 @@
   display: block;
   width: 100%;
   font-size: 0.95rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0;
   transition: all 0.2s ease;
   position: relative;
+  margin: 0;
 }
 
 .dropdown-item:hover {
   background: linear-gradient(135deg, rgba(229, 62, 62, 0.15) 0%, rgba(252, 129, 129, 0.15) 100%);
-  transform: translateX(4px);
 }
 
 .dropdown-item a:hover,
@@ -446,41 +447,88 @@
   /* Mobile Accordion Dropdown - Keep Original Styling */
   .mobile-list .nav-link {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 0.5rem;
   }
 
   /* Mobile Dropdown Menu */
   .mobile-list .dropdown-menu {
-    position: static;
-    background: transparent;
-    border-radius: 0;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    border: none;
+    position: absolute;
+    background: rgba(31, 41, 55, 0.3);
+    border-radius: 12px;
+    left: calc(-50vw + 50%);
+    top: 100%;
+    padding: 1rem 0;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
     min-width: auto;
-    width: 100%;
+    width: 100vw;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
-    opacity: 1;
-    visibility: visible;
+    transition: max-height 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+    opacity: 0;
+    visibility: hidden;
     transform: none;
+    z-index: 1000;
   }
 
   .mobile-list .dropdown-menu.show {
     max-height: 300px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Mobile dropdown items */
+  .mobile-list .dropdown-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mobile-list .dropdown-item:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-list .dropdown-item a {
+    color: #e5e7eb;
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    border-radius: 0;
+    margin: 0;
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .mobile-list .dropdown-item:hover {
+    background: linear-gradient(135deg, rgba(229, 62, 62, 0.1) 0%, rgba(252, 129, 129, 0.1) 100%);
+  }
+
+  .mobile-list .dropdown-item a:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(229, 62, 62, 0.15) 0%, rgba(252, 129, 129, 0.15) 100%);
   }
 
   /* Mobile dropdown arrow animation */
   .mobile-list .nav-link span {
     transition: transform 0.3s ease;
     font-size: 0.8rem;
+    margin-left: 0.25rem;
   }
 
   .mobile-list .nav-item.dropdown-open .nav-link span {
     transform: rotate(180deg);
+  }
+
+  /* Hide other nav items when inventory dropdown is open */
+  .mobile-list .nav-item:not(.dropdown-open) {
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .mobile-list .nav-item.dropdown-open ~ .nav-item {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 
@@ -490,7 +538,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background: linear-gradient(145deg, rgba(31, 41, 55, 0.95) 0%, rgba(55, 65, 81, 0.95) 100%);
+    background: rgba(31, 41, 55, 0.85);
     border-radius: 12px;
     margin-top: 0.75rem;
     padding: 0.5rem 0;
@@ -500,7 +548,7 @@
       0 20px 25px -5px rgba(0, 0, 0, 0.3),
       0 10px 10px -5px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     display: flex;
     flex-direction: column;
     list-style: none;
@@ -528,7 +576,7 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid #1f2937;
+    border-bottom: 8px solid rgba(31, 41, 55, 0.85);
   }
 }
 
@@ -583,7 +631,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   left: auto !important;
-  right: 1rem !important; /* Move away from scroll bar */
+  right: 2.5rem !important; /* Move further away from scroll bar */
 }
 
 .user-dropdown .dropdown-item {

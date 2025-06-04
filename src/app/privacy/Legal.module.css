@@ -16,7 +16,7 @@
 }
 
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0f1419 0%, #1a202c 50%, #2d3748 100%);
   color: white;
   padding: 3rem 2rem;
   text-align: center;
@@ -56,7 +56,7 @@
   color: #2d3748;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #e53e3e;
   display: inline-block;
 }
 
@@ -81,7 +81,7 @@
   background: #f7fafc;
   padding: 1rem;
   border-radius: 8px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #e53e3e;
 }
 
 .contactInfo p {

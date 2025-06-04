@@ -187,11 +187,7 @@ export default function Home() {
                 <span className={styles.brandAuto}>Auto</span>
               </span></h2>
               <p className={styles.aboutDescription}>
-                At <span className={styles.brandName}>
-                  <span className={styles.brandFaze}>Faze</span>
-                  <span className={styles.brandN}>N</span>
-                  <span className={styles.brandAuto}>Auto</span>
-                </span>, we're committed to providing quality pre-owned vehicles
+                At FazeNAuto, we're committed to providing quality pre-owned vehicles
                 with complete transparency. Our as-is pricing model means no surprises,
                 no hidden fees, and honest deals for every customer.
               </p>

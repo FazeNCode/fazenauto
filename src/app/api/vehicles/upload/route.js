@@ -24,6 +24,7 @@ export async function POST(request) {
     }
 
     const imageFiles = form.getAll('images');
+    const videoFile = form.get('video');
     const vin = form.get('vin');
     const year = form.get('year');
 
@@ -38,8 +39,8 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: 'At least one image is required.' }, { status: 400 });
     }
 
-    if (imageFiles.length > 25) {
-      return NextResponse.json({ success: false, error: 'Maximum 25 images allowed.' }, { status: 400 });
+    if (imageFiles.length > 50) {
+      return NextResponse.json({ success: false, error: 'Maximum 50 images allowed.' }, { status: 400 });
     }
 
     // Process and upload all images
@@ -80,6 +81,37 @@ export async function POST(request) {
     const primaryImageUrl = imageUrls[0];
     const primaryImageHash = imageHashes[0];
 
+    // Process video file if provided
+    let videoUrl = null;
+    if (videoFile && videoFile.size > 0) {
+      // Validate video file type
+      const allowedVideoTypes = ['video/mp4', 'video/avi', 'video/mov', 'video/wmv', 'video/webm'];
+      if (!allowedVideoTypes.includes(videoFile.type)) {
+        return NextResponse.json({ success: false, error: 'Invalid video format. Allowed formats: MP4, AVI, MOV, WMV, WebM' }, { status: 400 });
+      }
+
+      // Check video file size (limit to 100MB)
+      const maxVideoSize = 100 * 1024 * 1024; // 100MB in bytes
+      if (videoFile.size > maxVideoSize) {
+        return NextResponse.json({ success: false, error: 'Video file too large. Maximum size is 100MB.' }, { status: 400 });
+      }
+
+      const videoBuffer = Buffer.from(await videoFile.arrayBuffer());
+      const safeVideoFileName = videoFile.name.replace(/\s+/g, '-').toLowerCase();
+      const videoFileKey = `vehicles/${year}/videos/${uuidv4()}-${safeVideoFileName}`;
+
+      const videoUploadParams = {
+        Bucket: process.env.CUSTOM_AWS_S3_BUCKET_NAME,
+        Key: videoFileKey,
+        Body: videoBuffer,
+        ContentType: videoFile.type,
+        CacheControl: 'public, max-age=31536000',
+      };
+
+      await s3.send(new PutObjectCommand(videoUploadParams));
+      videoUrl = `https://${process.env.CUSTOM_AWS_S3_BUCKET_NAME}.s3.${process.env.CUSTOM_AWS_REGION}.amazonaws.com/${videoFileKey}`;
+    }
+
     const vehicleData = {
       make: form.get('make'),
       model: form.get('model'),
@@ -93,6 +125,7 @@ export async function POST(request) {
       transmission: form.get('transmission'),
       imageUrl: primaryImageUrl, // Primary image for backward compatibility
       images: imageUrls, // All images array
+      videoUrl: videoUrl, // Video URL if provided
       imageHash: primaryImageHash, // Primary image hash for duplicate detection
     };
 

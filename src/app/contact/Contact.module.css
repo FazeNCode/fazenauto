@@ -45,12 +45,23 @@
 
 /* Contact Information */
 .contactInfo {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4a5568 0%, #718096 50%, #a0aec0 100%);
   color: white;
   padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  position: relative;
+}
+
+.contactInfo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 100%);
 }
 
 .sectionTitle {
@@ -134,8 +145,8 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
 }
 
 .formGroup textarea {
@@ -144,7 +155,7 @@
 }
 
 .submitButton {
-  background: #667eea;
+  background: #e53e3e;
   color: white;
   padding: 1rem 2rem;
   border: none;
@@ -157,9 +168,9 @@
 }
 
 .submitButton:hover {
-  background: #5a67d8;
+  background: #c53030;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
 }
 
 .footer {
@@ -172,17 +183,17 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #667eea;
+  color: #e53e3e;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
-  border: 2px solid #667eea;
+  border: 2px solid #e53e3e;
 }
 
 .backButton:hover {
-  background: #667eea;
+  background: #e53e3e;
   color: white;
   transform: translateY(-2px);
 }
@@ -192,30 +203,50 @@
   .contactPage {
     padding: 1rem 0.5rem;
   }
-  
+
   .title {
     font-size: 2.5rem;
   }
-  
+
   .contactGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .contactInfo {
-    padding: 2rem 1.5rem;
+    padding: 2.5rem 1.5rem;
+    background: linear-gradient(135deg, #4a5568 0%, #718096 50%, #a0aec0 100%);
+    border-radius: 12px 12px 0 0;
   }
-  
+
+  .contactInfo::after {
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 100%);
+  }
+
   .contactForm {
     padding: 2rem 1.5rem;
+    border-radius: 0 0 12px 12px;
   }
-  
+
   .contactItem {
-    flex-direction: column;
-    text-align: center;
-    gap: 0.5rem;
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
+  .contactItem:last-child {
+    border-bottom: none;
+  }
+
   .icon {
-    align-self: center;
+    align-self: flex-start;
+    margin-top: 0.25rem;
+  }
+
+  .sectionTitle {
+    text-align: center;
+    margin-bottom: 2rem;
   }
 }

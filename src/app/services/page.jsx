@@ -98,7 +98,6 @@ export default function Services() {
                 <ul className={styles.featuresList}>
                   {service.features.map((feature, idx) => (
                     <li key={idx} className={styles.featureItem}>
-                      <span className={styles.checkIcon}>✓</span>
                       {feature}
                     </li>
                   ))}

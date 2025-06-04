@@ -169,7 +169,21 @@ export default function UploadForm() {
               className={styles.fileInput}
             />
             <small className={styles.helpText}>
-              You can select up to 25 photos. Hold Ctrl/Cmd to select multiple files.
+              You can select up to 50 photos. Hold Ctrl/Cmd to select multiple files.
+            </small>
+          </div>
+
+          {/* Vehicle Video */}
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Vehicle Video (Optional)</label>
+            <input
+              type="file"
+              name="video"
+              accept="video/mp4,video/avi,video/mov,video/wmv,video/webm"
+              className={styles.fileInput}
+            />
+            <small className={styles.helpText}>
+              Upload a video of the vehicle (MP4, AVI, MOV, WMV, WebM). Maximum size: 100MB.
             </small>
           </div>
 
