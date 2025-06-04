@@ -85,6 +85,8 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.5rem;
 }
 
@@ -107,6 +109,8 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.5rem;
 }
 
@@ -236,12 +240,14 @@
   position: relative;
   height: 250px;
   overflow: hidden;
+  border-radius: 12px 12px 0 0;
 }
 
 .vehicleImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: transform 0.3s ease;
 }
 
@@ -377,8 +383,20 @@
 /* About Section */
 .aboutSection {
   padding: 4rem 1rem;
-  background: linear-gradient(135deg, #2d3748 0%, #4a5568 50%, #718096 100%);
+  background: linear-gradient(135deg, #4a5568 0%, #718096 50%, #a0aec0 100%);
   color: white;
+  position: relative;
+}
+
+.aboutSection::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(26, 32, 44, 0) 0%, rgba(26, 32, 44, 0.3) 100%);
+  pointer-events: none;
 }
 
 .aboutContent {
@@ -417,7 +435,7 @@
 }
 
 .featureIcon {
-  background: #48bb78;
+  background: #e53e3e;
   color: white;
   width: 24px;
   height: 24px;
@@ -443,9 +461,23 @@
 /* CTA Section */
 .ctaSection {
   padding: 4rem 1rem;
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+  background: linear-gradient(135deg, #2d3748 0%, #4a5568 50%, #718096 100%);
   color: white;
   text-align: center;
+  position: relative;
+  margin-top: -30px;
+  padding-top: 5rem;
+}
+
+.ctaSection::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(15, 20, 25, 0) 0%, rgba(15, 20, 25, 0.4) 100%);
+  pointer-events: none;
 }
 
 .ctaContent {

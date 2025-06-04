@@ -2,7 +2,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import VehicleCard from '../../components/VehicleCard/VehicleCard'
+import VehicleCard from '../../components/VehicleCard/VehicleCard';
+import styles from './VehiclesPage.module.css';
 
 export default function VehiclesPage() {
   const [vehicles, setVehicles] = useState([]);
@@ -24,9 +25,9 @@ export default function VehiclesPage() {
   }, []);
 
   return (
-    <div className="vehicles-page">
+    <div className={styles.vehiclesPage}>
       <h1>Our Vehicles</h1>
-      <div className="vehicle-grid">
+      <div className={styles.vehicleGrid}>
         {vehicles.map((vehicle) => (
           <VehicleCard key={vehicle.vin} vehicle={vehicle} />
         ))}

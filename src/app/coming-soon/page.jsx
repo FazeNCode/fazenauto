@@ -80,7 +80,6 @@ function ComingSoonContent() {
             <ul className={styles.featuresList}>
               {featureDetails.features.map((item, index) => (
                 <li key={index} className={styles.featureItem}>
-                  <span className={styles.checkIcon}>✓</span>
                   {item}
                 </li>
               ))}

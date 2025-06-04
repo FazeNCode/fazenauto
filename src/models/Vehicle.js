@@ -13,6 +13,7 @@ const vehicleSchema = new Schema(
     location: { type: String },
     imageUrl: { type: String }, // S3 image URL (primary/main image for backward compatibility)
     images: [{ type: String }], // Array of S3 image URLs for multiple images
+    videoUrl: { type: String }, // S3 video URL for vehicle video
     cargurus: { type: String },
     engine: { type: String, required: true },
     drivetrain: { type: String, required: true },

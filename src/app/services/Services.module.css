@@ -120,20 +120,6 @@
   font-weight: 500;
 }
 
-.checkIcon {
-  background: #48bb78;
-  color: white;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
 /* Coming Soon Section */
 .comingSoonSection {
   padding: 4rem 1rem;
@@ -155,20 +141,20 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   position: relative;
-  border: 2px dashed #667eea;
+  border: 2px dashed #e53e3e;
   transition: all 0.3s ease;
 }
 
 .comingSoonCard:hover {
   transform: translateY(-3px);
-  border-color: #5a67d8;
+  border-color: #c53030;
 }
 
 .statusBadge {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: #667eea;
+  background: #e53e3e;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -221,6 +207,10 @@
   font-size: 1.1rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .primaryBtn:hover {
@@ -239,6 +229,10 @@
   font-weight: 600;
   font-size: 1.1rem;
   transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .secondaryBtn:hover {
