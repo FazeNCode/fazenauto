@@ -1,9 +1,10 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import styles from './ComingSoon.module.css';
 
-export default function ComingSoon() {
+function ComingSoonContent() {
   const searchParams = useSearchParams();
   const feature = searchParams.get('feature') || 'This Feature';
 
@@ -127,5 +128,22 @@ export default function ComingSoon() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ComingSoon() {
+  return (
+    <Suspense fallback={
+      <div className={styles.comingSoonPage}>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <div className={styles.mainIcon}>🚀</div>
+            <h1 className={styles.title}>Loading...</h1>
+          </div>
+        </div>
+      </div>
+    }>
+      <ComingSoonContent />
+    </Suspense>
   );
 }
