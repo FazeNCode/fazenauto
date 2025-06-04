@@ -72,14 +72,37 @@ const Navbar = () => {
           if (userData && userData.email && userData.role) {
             setUser(userData);
           }
+        } else {
+          setUser(null);
         }
       } catch (error) {
         console.error('Error checking auth status:', error);
         localStorage.removeItem('user');
+        setUser(null);
       }
     };
 
     checkAuthStatus();
+
+    // Listen for storage changes (when user logs in from another tab or component)
+    const handleStorageChange = (e) => {
+      if (e.key === 'user') {
+        checkAuthStatus();
+      }
+    };
+
+    // Listen for custom login event
+    const handleLoginEvent = () => {
+      checkAuthStatus();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('userLogin', handleLoginEvent);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userLogin', handleLoginEvent);
+    };
   }, []);
 
   const handleDropdownToggle = () => setDropdownOpen((prev) => !prev);
@@ -137,39 +160,41 @@ const Navbar = () => {
             <Link href="/" onClick={() => handleLinkClick("")}>
               <Logo />
             </Link>
+          </div>
+        )}
 
-            {/* Admin Portal User Section - Mobile Top Bar */}
-            {!isLargeScreen && user && (
-              <div className="admin-portal-mobile">
+        {/* Admin Portal User Section - Mobile Top Bar (moved next to hamburger) */}
+        {!toggle && !isLargeScreen && user && (
+          <div className="admin-portal-mobile">
+            <div className="user-dropdown-mobile-top">
+              <a
+                className="user-link-mobile-top"
+                onClick={handleUserDropdownToggle}
+              >
                 <span className="admin-portal-text">Admin Portal</span>
-                <div className="user-dropdown-mobile-top">
-                  <a
-                    className="user-link-mobile-top"
-                    onClick={handleUserDropdownToggle}
-                  >
-                    <span className="user-icon">👤</span>
-                    <span>{userDropdownOpen ? "▲" : "▼"}</span>
-                  </a>
-                  <ul className={`dropdown-menu user-dropdown-top ${userDropdownOpen ? "show" : ""}`}>
-                    <li className="dropdown-item">
-                      <Link href="/admin" onClick={() => handleLinkClick('Dashboard')}>
-                        Dashboard
-                      </Link>
-                    </li>
-                    <li className="dropdown-item">
-                      <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
-                        Upload New
-                      </Link>
-                    </li>
-                    <li className="dropdown-item">
-                      <a onClick={handleLogoutClick} className="logout-link">
-                        Logout
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            )}
+                <span className="user-icon">👤</span>
+                <span>{userDropdownOpen ? "▼" : "▼"}</span>
+              </a>
+              {userDropdownOpen && (
+                <ul className="dropdown-menu user-dropdown-top show">
+                  <li className="dropdown-item">
+                    <Link href="/admin" onClick={() => handleLinkClick('Dashboard')}>
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className="dropdown-item">
+                    <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
+                      Upload New
+                    </Link>
+                  </li>
+                  <li className="dropdown-item">
+                    <a onClick={handleLogoutClick} className="logout-link">
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              )}
+            </div>
           </div>
         )}
 

@@ -157,16 +157,20 @@ export default function UploadForm() {
             />
           </div>
 
-          {/* Vehicle Image */}
+          {/* Vehicle Images */}
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Vehicle Image *</label>
+            <label className={styles.label}>Vehicle Images * (Select multiple photos)</label>
             <input
               type="file"
-              name="image"
+              name="images"
               accept="image/*"
+              multiple
               required
               className={styles.fileInput}
             />
+            <small className={styles.helpText}>
+              You can select up to 25 photos. Hold Ctrl/Cmd to select multiple files.
+            </small>
           </div>
 
           <button

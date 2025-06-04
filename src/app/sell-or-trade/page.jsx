@@ -16,7 +16,7 @@ export default function SellOrTrade() {
       justifyContent: 'center', 
       alignItems: 'center', 
       height: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      background: 'linear-gradient(135deg, #0f1419 0%, #1a202c 50%, #2d3748 100%)',
       color: 'white',
       fontSize: '1.2rem'
     }}>

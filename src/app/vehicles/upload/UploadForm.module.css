@@ -90,6 +90,13 @@
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
 }
 
+.helpText {
+  color: #718096;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
 .submitButton {
   background: #4299e1;
   color: white;

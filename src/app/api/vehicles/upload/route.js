@@ -19,13 +19,13 @@ export async function POST(request) {
 
     const form = await request.formData();
     // 🔍 DEBUG: Log all incoming form data keys and values
-for (let [key, value] of form.entries()) {
-  console.log(`${key}: ${value}`);
-}
-    const imageFile = form.get('image');
-    const buffer = Buffer.from(await imageFile.arrayBuffer());
+    for (let [key, value] of form.entries()) {
+      console.log(`${key}: ${value}`);
+    }
 
+    const imageFiles = form.getAll('images');
     const vin = form.get('vin');
+    const year = form.get('year');
 
     // 🔁 1. Check for duplicate VIN
     const vinExists = await Vehicle.findOne({ vin });
@@ -33,29 +33,52 @@ for (let [key, value] of form.entries()) {
       return NextResponse.json({ success: false, error: 'A vehicle with this VIN already exists.' }, { status: 409 });
     }
 
-    // 🔁 2. Check for duplicate image using hash
-    const hash = crypto.createHash('sha256').update(buffer).digest('hex');
-    const hashExists = await Vehicle.findOne({ imageHash: hash });
-    if (hashExists) {
-      return NextResponse.json({ success: false, error: 'Duplicate image detected.' }, { status: 409 });
+    // Validate image files
+    if (!imageFiles || imageFiles.length === 0) {
+      return NextResponse.json({ success: false, error: 'At least one image is required.' }, { status: 400 });
     }
 
-    // 🆕 File naming
-    const safeFileName = imageFile.name.replace(/\s+/g, '-').toLowerCase();
-    const year = form.get('year');
-    const fileKey = `vehicles/${year}/${uuidv4()}-${safeFileName}`;
+    if (imageFiles.length > 25) {
+      return NextResponse.json({ success: false, error: 'Maximum 25 images allowed.' }, { status: 400 });
+    }
 
-    const uploadParams = {
-      Bucket: process.env.CUSTOM_AWS_S3_BUCKET_NAME,
-      Key: fileKey,
-      Body: buffer,
-      ContentType: imageFile.type,
-      CacheControl: 'public, max-age=31536000',
-    };
+    // Process and upload all images
+    const imageUrls = [];
+    const imageHashes = [];
 
-    await s3.send(new PutObjectCommand(uploadParams));
+    for (let i = 0; i < imageFiles.length; i++) {
+      const imageFile = imageFiles[i];
+      const buffer = Buffer.from(await imageFile.arrayBuffer());
 
-    const imageUrl = `https://${process.env.CUSTOM_AWS_S3_BUCKET_NAME}.s3.${process.env.CUSTOM_AWS_REGION}.amazonaws.com/${fileKey}`;
+      // 🔁 2. Check for duplicate image using hash
+      const hash = crypto.createHash('sha256').update(buffer).digest('hex');
+      const hashExists = await Vehicle.findOne({ imageHash: hash });
+      if (hashExists) {
+        return NextResponse.json({ success: false, error: `Duplicate image detected: ${imageFile.name}` }, { status: 409 });
+      }
+
+      // 🆕 File naming
+      const safeFileName = imageFile.name.replace(/\s+/g, '-').toLowerCase();
+      const fileKey = `vehicles/${year}/${uuidv4()}-${safeFileName}`;
+
+      const uploadParams = {
+        Bucket: process.env.CUSTOM_AWS_S3_BUCKET_NAME,
+        Key: fileKey,
+        Body: buffer,
+        ContentType: imageFile.type,
+        CacheControl: 'public, max-age=31536000',
+      };
+
+      await s3.send(new PutObjectCommand(uploadParams));
+
+      const imageUrl = `https://${process.env.CUSTOM_AWS_S3_BUCKET_NAME}.s3.${process.env.CUSTOM_AWS_REGION}.amazonaws.com/${fileKey}`;
+      imageUrls.push(imageUrl);
+      imageHashes.push(hash);
+    }
+
+    // Use first image as primary image for backward compatibility
+    const primaryImageUrl = imageUrls[0];
+    const primaryImageHash = imageHashes[0];
 
     const vehicleData = {
       make: form.get('make'),
@@ -68,8 +91,9 @@ for (let [key, value] of form.entries()) {
       engine: form.get('engine'),
       drivetrain: form.get('drivetrain'),
       transmission: form.get('transmission'),
-      imageUrl,
-      imageHash: hash, // ✅ Store image hash
+      imageUrl: primaryImageUrl, // Primary image for backward compatibility
+      images: imageUrls, // All images array
+      imageHash: primaryImageHash, // Primary image hash for duplicate detection
     };
 
     const vehicle = await Vehicle.create(vehicleData);

@@ -63,7 +63,7 @@ const Footer = () => {
             <div className={styles.contactInfo}>
               <div className={styles.contactItem}>
                 <FaPhone className={styles.contactIcon} />
-                <span>(555) 123-4567</span>
+                <span>647-338-9110</span>
               </div>
               <div className={styles.contactItem}>
                 <FaEnvelope className={styles.contactIcon} />
@@ -71,7 +71,7 @@ const Footer = () => {
               </div>
               <div className={styles.contactItem}>
                 <FaMapMarkerAlt className={styles.contactIcon} />
-                <span>123 Auto Street<br />Your City, State 12345</span>
+                <span>1120 Meighen Way</span>
               </div>
             </div>
             <div className={styles.businessHours}>
