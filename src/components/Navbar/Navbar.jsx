@@ -178,7 +178,7 @@ const Navbar = () => {
         )}
 
         {/* Admin Portal User Section - Mobile Top Bar (moved next to hamburger) */}
-        {!toggle && !isLargeScreen && user && (
+        {!isLargeScreen && user && (
           <div className="admin-portal-mobile">
             <div className="user-dropdown-mobile-top">
               <a
