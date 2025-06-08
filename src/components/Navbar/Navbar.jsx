@@ -227,7 +227,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div className={`mobile-menu ${toggle ? "show" : "hide"}`}>
           <ul className="nav-list mobile-list">
-            {navLinks.map((link) => (
+            {navLinks.filter(link => link.id !== 'login').map((link) => (
               <li key={link.id} className={`nav-item ${link.subLinks && dropdownOpen ? 'dropdown-open' : ''}`}>
                 {link.subLinks ? (
                   <>
@@ -253,7 +253,7 @@ const Navbar = () => {
                       ))}
                     </ul>
                   </>
-                ) : link.id !== 'login' ? (
+                ) : (
                   <Link
                     className={`nav-link ${active === link.title ? "active" : ""}`}
                     href={link.id === "home" ? "/" : `/${link.id}`}
@@ -261,7 +261,7 @@ const Navbar = () => {
                   >
                     {link.title}
                   </Link>
-                ) : null}
+                )}
               </li>
             ))}
           </ul>
@@ -269,7 +269,7 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="nav-list desktop-list">
-          {navLinks.map((link) => (
+          {navLinks.filter(link => link.id !== 'login').map((link) => (
             <li key={link.id} className="nav-item">
               {link.subLinks ? (
                 <>
@@ -295,7 +295,7 @@ const Navbar = () => {
                     ))}
                   </ul>
                 </>
-              ) : link.id !== 'login' ? (
+              ) : (
                 <Link
                   className={`nav-link ${active === link.title ? "active" : ""}`}
                   href={link.id === "home" ? "/" : `/${link.id}`}
@@ -303,7 +303,7 @@ const Navbar = () => {
                 >
                   {link.title}
                 </Link>
-              ) : null}
+              )}
             </li>
           ))}
 

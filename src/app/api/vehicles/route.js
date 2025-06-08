@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/dbConnect';
 import Vehicle from '@/models/Vehicle';
 
-// 🚗 GET /api/vehicles - Fetch all vehicles
+// 🚗 GET /api/vehicles - Fetch all vehicles with performance optimizations
 export async function GET(request) {
   try {
     console.log('🔍 API route called');
@@ -18,6 +18,9 @@ export async function GET(request) {
     const make = searchParams.get('make');
     const year = searchParams.get('year');
     const status = searchParams.get('status');
+    const page = parseInt(searchParams.get('page')) || 1;
+    const limit = parseInt(searchParams.get('limit')) || 20;
+    const fields = searchParams.get('fields'); // Allow field selection
 
     // Build filter object
     let filter = {};
@@ -44,13 +47,46 @@ export async function GET(request) {
 
     console.log('🔍 Filter:', filter);
 
-    const vehicles = await Vehicle.find(filter).sort({ createdAt: -1 });
-    console.log(`🔍 Found ${vehicles.length} vehicles`);
+    // Calculate pagination
+    const skip = (page - 1) * limit;
 
-    return NextResponse.json({
+    // Build query with pagination and field selection
+    let query = Vehicle.find(filter);
+
+    // Select only requested fields for better performance
+    if (fields) {
+      query = query.select(fields);
+    }
+
+    // Apply pagination and sorting
+    query = query.sort({ createdAt: -1 }).skip(skip).limit(limit);
+
+    // Execute query and get total count for pagination
+    const [vehicles, totalCount] = await Promise.all([
+      query.exec(),
+      Vehicle.countDocuments(filter)
+    ]);
+
+    console.log(`🔍 Found ${vehicles.length} vehicles (page ${page}/${Math.ceil(totalCount / limit)})`);
+
+    // Add cache headers for better performance
+    const response = NextResponse.json({
       success: true,
       data: vehicles,
+      pagination: {
+        page,
+        limit,
+        total: totalCount,
+        pages: Math.ceil(totalCount / limit),
+        hasNext: page < Math.ceil(totalCount / limit),
+        hasPrev: page > 1
+      }
     });
+
+    // Cache for 5 minutes for non-admin requests
+    response.headers.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
+
+    return response;
   } catch (error) {
     console.error('❌ Error in GET /api/vehicles:', error);
     console.error('❌ Error stack:', error.stack);

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "init-indexes": "node scripts/init-db-indexes.js",
+    "validate-indexes": "node scripts/validate-db-performance.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.817.0",
