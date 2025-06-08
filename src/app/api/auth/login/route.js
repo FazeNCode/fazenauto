@@ -10,6 +10,7 @@ export async function POST(request) {
 
     // Check if email is authorized
     const authorizedEmails = process.env.AUTHORIZED_EMAILS?.split(',').map(e => e.trim()) || [];
+
     if (!authorizedEmails.includes(email)) {
       return NextResponse.json({
         success: false,

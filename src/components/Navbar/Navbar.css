@@ -320,43 +320,7 @@
   white-space: nowrap;
 }
 
-.user-dropdown-top {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: rgba(55, 65, 81, 0.95);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  min-width: 150px;
-  z-index: 1000;
-  margin-top: 0.5rem;
-}
 
-.user-dropdown-top .dropdown-item {
-  list-style: none;
-}
-
-.user-dropdown-top .dropdown-item a {
-  display: block;
-  padding: 0.75rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: background 0.2s ease;
-}
-
-.user-dropdown-top .dropdown-item a:hover {
-  background: #4b5563;
-}
-
-.user-dropdown-top .dropdown-item:first-child a {
-  border-radius: 8px 8px 0 0;
-}
-
-.user-dropdown-top .dropdown-item:last-child a {
-  border-radius: 0 0 8px 8px;
-}
 
 .user-link-mobile-top {
   display: flex;
@@ -385,7 +349,7 @@
   min-width: 150px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
-  z-index: 1000;
+  z-index: 9999;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -670,6 +634,30 @@
     border: none;
     box-shadow: none;
     margin-top: 0.5rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease, visibility 0.4s ease, margin-top 0.4s ease;
+  }
+
+  .user-auth-mobile .user-dropdown.show {
+    max-height: 200px;
+    opacity: 1;
+    visibility: visible;
+    margin-top: 0.5rem;
+  }
+
+  .user-auth-mobile .user-dropdown .dropdown-item {
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition-delay: 0.1s;
+  }
+
+  .user-auth-mobile .user-dropdown.show .dropdown-item {
+    transform: translateY(0);
+    opacity: 1;
   }
 
   .user-auth-mobile .user-dropdown .dropdown-item a {
@@ -677,17 +665,30 @@
     font-size: 1.2rem;
     padding: 0.5rem 0;
     text-align: center;
+    transition: color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .user-auth-mobile .user-dropdown .dropdown-item a:hover {
+    color: #e53e3e;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
   }
 
   .user-auth-mobile .user-link {
     font-size: 1.5rem;
     justify-content: center;
+    transition: color 0.2s ease;
   }
 
   .user-auth-mobile .user-icon {
     font-size: 1.5rem;
     width: 30px;
     height: 30px;
+    transition: transform 0.2s ease;
+  }
+
+  .user-auth-mobile .user-link:hover .user-icon {
+    transform: scale(1.1);
   }
 }
 

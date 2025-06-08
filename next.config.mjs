@@ -9,6 +9,22 @@ const nextConfig = {
     AUTHORIZED_EMAILS: process.env.AUTHORIZED_EMAILS,
     ADMIN_SECRET: process.env.ADMIN_SECRET,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'fazenauto-vehicle-images.s3.us-east-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.s3.*.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

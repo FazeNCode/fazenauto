@@ -43,6 +43,7 @@ import './Sidebar.css'; // You'll create this CSS file
 
 const navItems = [
   { label: 'Dashboard', href: '/admin' },
+  { label: 'Vehicle Info', href: '/admin/vehicle-info' },
   { label: 'Upload New', href: '/vehicles/upload' },
 ];
 
