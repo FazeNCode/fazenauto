@@ -81,6 +81,10 @@ export default function AdminPage() {
             <h3>Draft Listings</h3>
             <p>{vehicles.filter(v => v.status === 'draft').length}</p>
           </div>
+          <div className={styles.statCard}>
+            <h3>Sold Vehicles</h3>
+            <p>{vehicles.filter(v => v.status === 'sold').length}</p>
+          </div>
         </div>
       </div>
 

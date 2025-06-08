@@ -71,7 +71,7 @@ const Footer = () => {
               </div>
               <div className={styles.contactItem}>
                 <FaMapMarkerAlt className={styles.contactIcon} />
-                <span>1120 Meighen Way</span>
+                <span>123 Main Street, Toronto, ON M5V 3A8</span>
               </div>
             </div>
             <div className={styles.businessHours}>

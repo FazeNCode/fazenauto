@@ -156,8 +156,15 @@ const Navbar = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.nav-item')) {
+      // Check if click is outside inventory dropdown
+      if (!event.target.closest('.nav-item') && !event.target.closest('.dropdown-menu')) {
         setDropdownOpen(false);
+      }
+
+      // Check if click is outside user dropdown (more specific)
+      if (!event.target.closest('.admin-portal-mobile') &&
+          !event.target.closest('.user-dropdown-desktop') &&
+          !event.target.closest('.user-dropdown-top')) {
         setUserDropdownOpen(false);
       }
     };
@@ -196,6 +203,11 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="dropdown-item">
+                  <Link href="/admin/vehicle-info" onClick={() => handleLinkClick('Vehicle Info')}>
+                    Vehicle Info
+                  </Link>
+                </li>
+                <li className="dropdown-item">
                   <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
                     Upload New
                   </Link>
@@ -215,7 +227,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div className={`mobile-menu ${toggle ? "show" : "hide"}`}>
           <ul className="nav-list mobile-list">
-            {navLinks.filter(link => link.id !== 'login').map((link) => (
+            {navLinks.map((link) => (
               <li key={link.id} className={`nav-item ${link.subLinks && dropdownOpen ? 'dropdown-open' : ''}`}>
                 {link.subLinks ? (
                   <>
@@ -241,7 +253,7 @@ const Navbar = () => {
                       ))}
                     </ul>
                   </>
-                ) : (
+                ) : link.id !== 'login' ? (
                   <Link
                     className={`nav-link ${active === link.title ? "active" : ""}`}
                     href={link.id === "home" ? "/" : `/${link.id}`}
@@ -249,28 +261,15 @@ const Navbar = () => {
                   >
                     {link.title}
                   </Link>
-                )}
+                ) : null}
               </li>
             ))}
-
-            {/* Show Dealer Login only if not authenticated */}
-            {!user && (
-              <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  href="/login"
-                  onClick={() => handleLinkClick('Dealer Login')}
-                >
-                  Dealer Login
-                </Link>
-              </li>
-            )}
           </ul>
         </div>
 
         {/* Desktop Menu */}
         <ul className="nav-list desktop-list">
-          {navLinks.filter(link => link.id !== 'login').map((link) => (
+          {navLinks.map((link) => (
             <li key={link.id} className="nav-item">
               {link.subLinks ? (
                 <>
@@ -296,7 +295,7 @@ const Navbar = () => {
                     ))}
                   </ul>
                 </>
-              ) : (
+              ) : link.id !== 'login' ? (
                 <Link
                   className={`nav-link ${active === link.title ? "active" : ""}`}
                   href={link.id === "home" ? "/" : `/${link.id}`}
@@ -304,7 +303,7 @@ const Navbar = () => {
                 >
                   {link.title}
                 </Link>
-              )}
+              ) : null}
             </li>
           ))}
 
@@ -327,6 +326,16 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li className="dropdown-item">
+                    <Link href="/admin/vehicle-info" onClick={() => handleLinkClick('Vehicle Info')}>
+                      Vehicle Info
+                    </Link>
+                  </li>
+                  <li className="dropdown-item">
+                    <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
+                      Upload New
+                    </Link>
+                  </li>
+                  <li className="dropdown-item">
                     <a onClick={handleLogoutClick} className="logout-link">
                       Logout
                     </a>
@@ -334,13 +343,27 @@ const Navbar = () => {
                 </ul>
               </div>
             ) : (
-              <Link
-                className="nav-link"
-                href="/login"
-                onClick={() => handleLinkClick('Dealer Login')}
-              >
-                Dealer Login
-              </Link>
+              <div className="user-dropdown-desktop">
+                <a
+                  className="nav-link"
+                  onClick={handleUserDropdownToggle}
+                >
+                  Dealer Login
+                  <span className="dropdown-arrow">{userDropdownOpen ? "▲" : "▼"}</span>
+                </a>
+                <ul className={`dropdown-menu user-dropdown ${userDropdownOpen ? "show" : ""}`}>
+                  <li className="dropdown-item">
+                    <Link href="/login" onClick={() => handleLinkClick('Login')}>
+                      Login
+                    </Link>
+                  </li>
+                  <li className="dropdown-item">
+                    <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
+                      Upload New
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             )}
           </li>
         </ul>

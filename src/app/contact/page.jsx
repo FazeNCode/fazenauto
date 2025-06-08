@@ -43,7 +43,7 @@ export default function Contact() {
                 <FaMapMarkerAlt className={styles.icon} />
                 <div>
                   <h3>Address</h3>
-                  <p>1120 Meighen Way</p>
+                  <p>123 Main Street, Toronto, ON M5V 3A8</p>
                   <span>Visit our showroom</span>
                 </div>
               </div>

@@ -9,45 +9,123 @@ import {
   getPaginationRowModel,
   flexRender,
 } from '@tanstack/react-table';
-import Image from 'next/image';
 import Link from 'next/link';
 import styles from './VehicleTable.module.css';
 
-export default function VehicleTable({ 
-  vehicles, 
-  loading, 
-  error, 
-  filters, 
-  setFilters, 
-  onDelete, 
-  onRefresh 
+export default function VehicleTable({
+  vehicles,
+  loading,
+  error,
+  filters,
+  setFilters,
+  onDelete,
+  onRefresh
 }) {
   const [sorting, setSorting] = useState([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSoldModal, setShowSoldModal] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [actionLoading, setActionLoading] = useState(false);
+
+  // Handle delete click
+  const handleDeleteClick = (vehicle) => {
+    setSelectedVehicle(vehicle);
+    setShowDeleteModal(true);
+  };
+
+  // Handle sold click
+  const handleSoldClick = (vehicle) => {
+    setSelectedVehicle(vehicle);
+    setShowSoldModal(true);
+  };
+
+  // Confirm delete
+  const confirmDelete = async () => {
+    if (!selectedVehicle) return;
+
+    setActionLoading(true);
+    try {
+      await onDelete(selectedVehicle._id);
+      setShowDeleteModal(false);
+      setSelectedVehicle(null);
+    } catch (error) {
+      console.error('Delete failed:', error);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  // Confirm sold
+  const confirmSold = async () => {
+    if (!selectedVehicle) return;
+
+    setActionLoading(true);
+    try {
+      const res = await fetch(`/api/vehicles/${selectedVehicle._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'sold' }),
+      });
+
+      if (res.ok) {
+        onRefresh(); // Refresh the table
+        setShowSoldModal(false);
+        setSelectedVehicle(null);
+      } else {
+        throw new Error('Failed to mark vehicle as sold');
+      }
+    } catch (error) {
+      console.error('Mark as sold failed:', error);
+      alert('Error marking vehicle as sold: ' + error.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  // Cancel modals
+  const cancelAction = () => {
+    setShowDeleteModal(false);
+    setShowSoldModal(false);
+    setSelectedVehicle(null);
+  };
 
   const columns = useMemo(() => [
     {
       accessorKey: 'images',
       header: 'Image',
-      cell: ({ getValue }) => {
-        const images = getValue();
-        const firstImage = images && images.length > 0 ? images[0] : null;
+      cell: ({ row }) => {
+        const vehicle = row.original;
+        // Try images array first, then fall back to imageUrl for backward compatibility
+        const images = vehicle.images;
+        const imageUrl = vehicle.imageUrl;
+        const firstImage = (images && images.length > 0) ? images[0] : imageUrl;
+
         return (
           <div className={styles.imageCell}>
             {firstImage ? (
-              <Image
+              <img
                 src={firstImage}
                 alt="Vehicle"
                 width={80}
                 height={60}
                 className={styles.vehicleImage}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
               />
             ) : (
               <div className={styles.noImage}>No Image</div>
             )}
+            <div className={styles.noImage} style={{ display: 'none' }}>
+              No Image
+            </div>
           </div>
         );
       },
@@ -102,15 +180,25 @@ export default function VehicleTable({
         const vehicle = row.original;
         return (
           <div className={styles.actions}>
-            <Link 
+            <Link
               href={`/admin/vehicles/edit/${vehicle._id}`}
               className={styles.editBtn}
             >
               Edit
             </Link>
+            {vehicle.status !== 'sold' && (
+              <button
+                onClick={() => handleSoldClick(vehicle)}
+                className={styles.soldBtn}
+                disabled={actionLoading}
+              >
+                Sold
+              </button>
+            )}
             <button
-              onClick={() => onDelete(vehicle._id)}
+              onClick={() => handleDeleteClick(vehicle)}
               className={styles.deleteBtn}
+              disabled={actionLoading}
             >
               Delete
             </button>
@@ -118,7 +206,7 @@ export default function VehicleTable({
         );
       },
     },
-  ], [onDelete]);
+  ], [actionLoading]);
 
   const table = useReactTable({
     data: vehicles,
@@ -277,6 +365,64 @@ export default function VehicleTable({
           ))}
         </select>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Confirm Delete</h3>
+            <p>
+              Are you sure you want to delete this vehicle?<br />
+              <strong>{selectedVehicle?.year} {selectedVehicle?.make} {selectedVehicle?.model}</strong>
+            </p>
+            <div className={styles.modalActions}>
+              <button
+                onClick={confirmDelete}
+                className={styles.confirmBtn}
+                disabled={actionLoading}
+              >
+                {actionLoading ? 'Deleting...' : 'Yes, Delete'}
+              </button>
+              <button
+                onClick={cancelAction}
+                className={styles.cancelBtn}
+                disabled={actionLoading}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sold Confirmation Modal */}
+      {showSoldModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Mark as Sold</h3>
+            <p>
+              Are you sure you want to move this vehicle to sold?<br />
+              <strong>{selectedVehicle?.year} {selectedVehicle?.make} {selectedVehicle?.model}</strong>
+            </p>
+            <div className={styles.modalActions}>
+              <button
+                onClick={confirmSold}
+                className={styles.confirmBtn}
+                disabled={actionLoading}
+              >
+                {actionLoading ? 'Processing...' : 'Yes, Mark as Sold'}
+              </button>
+              <button
+                onClick={cancelAction}
+                className={styles.cancelBtn}
+                disabled={actionLoading}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

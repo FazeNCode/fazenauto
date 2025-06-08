@@ -20,6 +20,10 @@ export const navLinks = [
   {
     id: "login",
     title: "Dealer Login",
+    subLinks: [
+      { id: "login", title: "Login" },
+      { id: "vehicles/upload", title: "Upload New" }
+    ],
   },
 ];
 
