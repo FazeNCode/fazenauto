@@ -19,7 +19,10 @@ export default function VehicleTable({
   filters,
   setFilters,
   onDelete,
-  onRefresh
+  onRefresh,
+  selectedVehicles = [],
+  setSelectedVehicles = () => {},
+  showSelection = false
 }) {
   const [sorting, setSorting] = useState([]);
   const [pagination, setPagination] = useState({
@@ -95,8 +98,50 @@ export default function VehicleTable({
     setSelectedVehicle(null);
   };
 
-  const columns = useMemo(() => [
-    {
+  // Handle vehicle selection
+  const handleSelectVehicle = (vehicleId, isSelected) => {
+    if (isSelected) {
+      setSelectedVehicles(prev => [...prev, vehicleId]);
+    } else {
+      setSelectedVehicles(prev => prev.filter(id => id !== vehicleId));
+    }
+  };
+
+  const handleSelectAll = (isSelected) => {
+    if (isSelected) {
+      setSelectedVehicles(vehicles.map(v => v._id));
+    } else {
+      setSelectedVehicles([]);
+    }
+  };
+
+  const columns = useMemo(() => {
+    const baseColumns = [];
+
+    // Add selection column if showSelection is true
+    if (showSelection) {
+      baseColumns.push({
+        id: 'select',
+        header: ({ table }) => (
+          <input
+            type="checkbox"
+            checked={selectedVehicles.length === vehicles.length && vehicles.length > 0}
+            onChange={(e) => handleSelectAll(e.target.checked)}
+            className={styles.selectCheckbox}
+          />
+        ),
+        cell: ({ row }) => (
+          <input
+            type="checkbox"
+            checked={selectedVehicles.includes(row.original._id)}
+            onChange={(e) => handleSelectVehicle(row.original._id, e.target.checked)}
+            className={styles.selectCheckbox}
+          />
+        ),
+      });
+    }
+
+    baseColumns.push({
       accessorKey: 'images',
       header: 'Image',
       cell: ({ row }) => {
@@ -205,8 +250,10 @@ export default function VehicleTable({
           </div>
         );
       },
-    },
-  ], [actionLoading]);
+    });
+
+    return baseColumns;
+  }, [actionLoading, showSelection, selectedVehicles, vehicles]);
 
   const table = useReactTable({
     data: vehicles,

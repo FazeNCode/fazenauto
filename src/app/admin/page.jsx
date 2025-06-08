@@ -3,11 +3,14 @@
 import { useEffect, useState } from 'react';
 import styles from './AdminPage.module.css';
 import VehicleTable from '@/components/VehicleTable/VehicleTable';
+import SyndicationPanel from '@/components/SyndicationPanel/SyndicationPanel';
 
 export default function AdminPage() {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedVehicles, setSelectedVehicles] = useState([]);
+  const [showSyndicationPanel, setShowSyndicationPanel] = useState(false);
   const [filters, setFilters] = useState({
     search: '',
     make: '',
@@ -67,6 +70,19 @@ export default function AdminPage() {
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <h1>Vehicle Inventory Management</h1>
+          <div className={styles.headerActions}>
+            <button
+              onClick={() => setShowSyndicationPanel(!showSyndicationPanel)}
+              className={`${styles.syndicationToggle} ${showSyndicationPanel ? styles.active : ''}`}
+            >
+              {showSyndicationPanel ? 'Hide' : 'Show'} Syndication Panel
+            </button>
+            {selectedVehicles.length > 0 && (
+              <span className={styles.selectedCount}>
+                {selectedVehicles.length} vehicle(s) selected
+              </span>
+            )}
+          </div>
         </div>
         <div className={styles.stats}>
           <div className={styles.statCard}>
@@ -88,6 +104,14 @@ export default function AdminPage() {
         </div>
       </div>
 
+      {/* Syndication Panel */}
+      {showSyndicationPanel && (
+        <SyndicationPanel
+          selectedVehicles={selectedVehicles}
+          onRefresh={fetchVehicles}
+        />
+      )}
+
       <VehicleTable
         vehicles={vehicles}
         loading={loading}
@@ -96,6 +120,9 @@ export default function AdminPage() {
         setFilters={setFilters}
         onDelete={handleDelete}
         onRefresh={fetchVehicles}
+        selectedVehicles={selectedVehicles}
+        setSelectedVehicles={setSelectedVehicles}
+        showSelection={showSyndicationPanel}
       />
     </div>
   );

@@ -5,6 +5,14 @@
   overflow: hidden;
 }
 
+/* Selection checkboxes */
+.selectCheckbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #e53e3e;
+  cursor: pointer;
+}
+
 .filters {
   display: flex;
   gap: 1rem;
