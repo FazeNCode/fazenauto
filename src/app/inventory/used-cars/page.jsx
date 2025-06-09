@@ -73,7 +73,7 @@ export default function QualityUsedCars() {
         <h1 className={styles.heroTitle}>Used Vehicles</h1>
         <p className={styles.heroSubtitle}>
           Discover our carefully selected collection of premium pre-owned vehicles.
-          All vehicles are sold as-is with competitive pricing.
+          All vehicles come with competitive pricing.
         </p>
       </div>
 
@@ -85,7 +85,7 @@ export default function QualityUsedCars() {
             <span className={styles.statLabel}>Available Cars</span>
           </div>
           <div className={styles.statCard}>
-            <span className={styles.statNumber}>As-Is</span>
+            <span className={styles.statNumber}>Fair</span>
             <span className={styles.statLabel}>Pricing</span>
           </div>
         </div>

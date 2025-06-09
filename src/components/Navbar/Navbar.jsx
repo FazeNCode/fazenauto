@@ -116,6 +116,7 @@ const Navbar = () => {
   const handleLinkClick = (title) => {
     setActive(title);
     setDropdownOpen(false); // Close dropdown on link click
+    setUserDropdownOpen(false); // Close user dropdown on link click
     setToggle(false); // Close mobile menu
   };
 
@@ -130,6 +131,7 @@ const Navbar = () => {
   const handleLogoutClick = () => {
     setShowLogoutConfirm(true);
     setUserDropdownOpen(false);
+    setToggle(false); // Close mobile menu
   };
 
   const confirmLogout = () => {
@@ -137,6 +139,7 @@ const Navbar = () => {
     setUser(null);
     setUserDropdownOpen(false);
     setShowLogoutConfirm(false);
+    setToggle(false); // Close mobile menu
     router.push('/');
   };
 
@@ -264,6 +267,31 @@ const Navbar = () => {
                 )}
               </li>
             ))}
+
+            {/* Mobile Login Section - Only show if not authenticated */}
+            {!user && (
+              <li className="nav-item mobile-login">
+                <a
+                  className={`nav-link ${active === "Dealer Login" ? "active" : ""}`}
+                  onClick={() => {
+                    setActive("Dealer Login");
+                    handleUserDropdownToggle();
+                  }}
+                >
+                  Dealer Login <span>{userDropdownOpen ? "▲" : "▼"}</span>
+                </a>
+                <ul className={`dropdown-menu ${userDropdownOpen ? "show" : ""}`}>
+                  <li className="dropdown-item">
+                    <Link
+                      href="/login"
+                      onClick={() => handleLinkClick("Login")}
+                    >
+                      Login
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -355,11 +383,6 @@ const Navbar = () => {
                   <li className="dropdown-item">
                     <Link href="/login" onClick={() => handleLinkClick('Login')}>
                       Login
-                    </Link>
-                  </li>
-                  <li className="dropdown-item">
-                    <Link href="/vehicles/upload" onClick={() => handleLinkClick('Upload New')}>
-                      Upload New
                     </Link>
                   </li>
                 </ul>

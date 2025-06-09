@@ -141,6 +141,18 @@
   gap: 0;
 }
 
+/* Mobile Login Section */
+.mobile-login {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.mobile-login .nav-link {
+  color: #e53e3e;
+  font-weight: 600;
+}
+
 .mobile-list .nav-item {
   margin: 1.5rem 0;
   position: relative;
