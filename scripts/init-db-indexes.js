@@ -9,26 +9,23 @@
  *   npm run init-indexes (if added to package.json)
  */
 
-// Use require for Node.js compatibility
-const path = require('path');
-const { fileURLToPath } = require('url');
+// ES module imports
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
-// For ES modules in Node.js
-async function loadModules() {
-  const { initializeAllIndexes, validateIndexes } = await import('../src/lib/dbIndexes.js');
-  const { connectToDatabase } = await import('../src/lib/dbConnect.js');
-  const mongoose = await import('mongoose');
+// Load environment variables
+dotenv.config({ path: '.env.local' });
 
-  return { initializeAllIndexes, validateIndexes, connectToDatabase, mongoose: mongoose.default };
-}
+// Import modules directly
+import { initializeAllIndexes, validateIndexes } from '../src/lib/dbIndexes.js';
+import { connectToDatabase } from '../src/lib/dbConnect.js';
+import mongoose from 'mongoose';
 
 async function main() {
   console.log('🚀 Starting database index initialization...\n');
 
   try {
-    // Load environment variables
-    require('dotenv').config({ path: '.env.local' });
-
     // Check if MONGO_URI is available
     if (!process.env.MONGO_URI) {
       console.error('❌ MONGO_URI not found in environment variables');
@@ -36,8 +33,7 @@ async function main() {
       process.exit(1);
     }
 
-    // Load ES modules
-    const { initializeAllIndexes, validateIndexes, connectToDatabase, mongoose } = await loadModules();
+    // Modules are already imported at the top
 
     // Connect to database
     console.log('📡 Connecting to database...');
@@ -77,7 +73,6 @@ async function main() {
   } finally {
     // Close database connection if available
     try {
-      const { mongoose } = await loadModules();
       if (mongoose.connection.readyState === 1) {
         await mongoose.connection.close();
         console.log('\n📡 Database connection closed');
@@ -89,7 +84,8 @@ async function main() {
 }
 
 // Handle script execution
-if (require.main === module) {
+const __filename = fileURLToPath(import.meta.url);
+if (process.argv[1] === __filename) {
   main().catch(error => {
     console.error('❌ Script failed:', error);
     process.exit(1);

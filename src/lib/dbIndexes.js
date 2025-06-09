@@ -17,49 +17,47 @@ export async function createVehicleIndexes() {
 
     console.log('🔧 Creating Vehicle collection indexes...');
 
-    // 1. Search indexes for text search
-    await vehicleCollection.createIndex({
-      make: 'text',
-      model: 'text',
-      vin: 'text'
-    }, {
-      name: 'vehicle_search_text',
-      weights: {
-        make: 10,
-        model: 8,
-        vin: 5
+    const indexes = [
+      {
+        fields: { make: 'text', model: 'text', vin: 'text' },
+        options: {
+          name: 'vehicle_search_text',
+          weights: { make: 10, model: 8, vin: 5 }
+        }
+      },
+      { fields: { make: 1, model: 1 }, options: { name: 'make_model_idx' } },
+      { fields: { year: 1 }, options: { name: 'year_idx' } },
+      { fields: { price: 1 }, options: { name: 'price_idx' } },
+      { fields: { mileage: 1 }, options: { name: 'mileage_idx' } },
+      { fields: { status: 1 }, options: { name: 'status_idx' } },
+      { fields: { status: 1, createdAt: -1 }, options: { name: 'status_created_idx' } },
+      { fields: { make: 1, year: 1, price: 1 }, options: { name: 'make_year_price_idx' } },
+      { fields: { vin: 1 }, options: { name: 'vin_unique_idx', unique: true } }
+    ];
+
+    let created = 0;
+    let skipped = 0;
+
+    for (const { fields, options } of indexes) {
+      try {
+        await vehicleCollection.createIndex(fields, options);
+        console.log(`✅ Created index: ${options.name}`);
+        created++;
+      } catch (error) {
+        if (error.code === 85 || error.codeName === 'IndexOptionsConflict' || error.code === 11000) {
+          console.log(`⚠️  Index already exists: ${options.name}`);
+          skipped++;
+        } else {
+          console.error(`❌ Failed to create index ${options.name}:`, error.message);
+          skipped++;
+        }
       }
-    });
+    }
 
-    // 2. Filter indexes for common queries
-    await vehicleCollection.createIndex({ make: 1, model: 1 }, { name: 'make_model_idx' });
-    await vehicleCollection.createIndex({ year: 1 }, { name: 'year_idx' });
-    await vehicleCollection.createIndex({ price: 1 }, { name: 'price_idx' });
-    await vehicleCollection.createIndex({ mileage: 1 }, { name: 'mileage_idx' });
-    await vehicleCollection.createIndex({ status: 1 }, { name: 'status_idx' });
-
-    // 3. Compound indexes for common filter combinations
-    await vehicleCollection.createIndex({ 
-      status: 1, 
-      createdAt: -1 
-    }, { name: 'status_created_idx' });
-
-    await vehicleCollection.createIndex({ 
-      make: 1, 
-      year: 1, 
-      price: 1 
-    }, { name: 'make_year_price_idx' });
-
-    // 4. Unique indexes
-    await vehicleCollection.createIndex({ vin: 1 }, { 
-      name: 'vin_unique_idx', 
-      unique: true 
-    });
-
-    // 5. Geospatial index for location-based queries (future use)
-    // await vehicleCollection.createIndex({ location: '2dsphere' }, { name: 'location_geo_idx' });
-
-    console.log('✅ Vehicle indexes created successfully');
+    console.log(`\n📊 Vehicle Index Summary:`);
+    console.log(`  - Created: ${created}`);
+    console.log(`  - Skipped (already exist): ${skipped}`);
+    console.log(`  - Total: ${created + skipped}`);
 
   } catch (error) {
     console.error('❌ Error creating vehicle indexes:', error);
@@ -78,22 +76,35 @@ export async function createUserIndexes() {
 
     console.log('🔧 Creating User collection indexes...');
 
-    // 1. Unique email index
-    await userCollection.createIndex({ email: 1 }, { 
-      name: 'email_unique_idx', 
-      unique: true 
-    });
+    const indexes = [
+      { fields: { email: 1 }, options: { name: 'email_unique_idx', unique: true } },
+      { fields: { role: 1 }, options: { name: 'role_idx' } },
+      { fields: { email: 1, role: 1 }, options: { name: 'email_role_idx' } }
+    ];
 
-    // 2. Role index for authorization queries
-    await userCollection.createIndex({ role: 1 }, { name: 'role_idx' });
+    let created = 0;
+    let skipped = 0;
 
-    // 3. Compound index for login queries
-    await userCollection.createIndex({ 
-      email: 1, 
-      role: 1 
-    }, { name: 'email_role_idx' });
+    for (const { fields, options } of indexes) {
+      try {
+        await userCollection.createIndex(fields, options);
+        console.log(`✅ Created index: ${options.name}`);
+        created++;
+      } catch (error) {
+        if (error.code === 85 || error.codeName === 'IndexOptionsConflict' || error.code === 11000) {
+          console.log(`⚠️  Index already exists: ${options.name}`);
+          skipped++;
+        } else {
+          console.error(`❌ Failed to create index ${options.name}:`, error.message);
+          skipped++;
+        }
+      }
+    }
 
-    console.log('✅ User indexes created successfully');
+    console.log(`\n📊 User Index Summary:`);
+    console.log(`  - Created: ${created}`);
+    console.log(`  - Skipped (already exist): ${skipped}`);
+    console.log(`  - Total: ${created + skipped}`);
 
   } catch (error) {
     console.error('❌ Error creating user indexes:', error);
@@ -108,35 +119,41 @@ export async function createSyndicationIndexes() {
   try {
     await connectToDatabase();
     const db = mongoose.connection.db;
-
-    // Create syndication_logs collection if it doesn't exist
     const syndicationCollection = db.collection('syndication_logs');
 
     console.log('🔧 Creating Syndication collection indexes...');
 
-    // 1. Vehicle reference index
-    await syndicationCollection.createIndex({ vehicleId: 1 }, { name: 'vehicle_ref_idx' });
+    const indexes = [
+      { fields: { vehicleId: 1 }, options: { name: 'vehicle_ref_idx' } },
+      { fields: { platform: 1 }, options: { name: 'platform_idx' } },
+      { fields: { status: 1 }, options: { name: 'sync_status_idx' } },
+      { fields: { createdAt: 1 }, options: { name: 'created_timestamp_idx', expireAfterSeconds: 2592000 } },
+      { fields: { vehicleId: 1, platform: 1, status: 1 }, options: { name: 'vehicle_platform_status_idx' } }
+    ];
 
-    // 2. Platform index
-    await syndicationCollection.createIndex({ platform: 1 }, { name: 'platform_idx' });
+    let created = 0;
+    let skipped = 0;
 
-    // 3. Status index
-    await syndicationCollection.createIndex({ status: 1 }, { name: 'sync_status_idx' });
+    for (const { fields, options } of indexes) {
+      try {
+        await syndicationCollection.createIndex(fields, options);
+        console.log(`✅ Created index: ${options.name}`);
+        created++;
+      } catch (error) {
+        if (error.code === 85 || error.codeName === 'IndexOptionsConflict' || error.code === 11000) {
+          console.log(`⚠️  Index already exists: ${options.name}`);
+          skipped++;
+        } else {
+          console.error(`❌ Failed to create index ${options.name}:`, error.message);
+          skipped++;
+        }
+      }
+    }
 
-    // 4. Timestamp index for cleanup and reporting
-    await syndicationCollection.createIndex({ createdAt: 1 }, { 
-      name: 'created_timestamp_idx',
-      expireAfterSeconds: 2592000 // Auto-delete after 30 days
-    });
-
-    // 5. Compound index for tracking
-    await syndicationCollection.createIndex({ 
-      vehicleId: 1, 
-      platform: 1, 
-      status: 1 
-    }, { name: 'vehicle_platform_status_idx' });
-
-    console.log('✅ Syndication indexes created successfully');
+    console.log(`\n📊 Syndication Index Summary:`);
+    console.log(`  - Created: ${created}`);
+    console.log(`  - Skipped (already exist): ${skipped}`);
+    console.log(`  - Total: ${created + skipped}`);
 
   } catch (error) {
     console.error('❌ Error creating syndication indexes:', error);
@@ -227,24 +244,26 @@ export async function validateIndexes() {
     console.log('🔍 Validating database indexes...');
     
     // Check vehicle indexes
-    const vehicleStats = await db.collection('vehicles').stats();
+    const vehicleCollection = db.collection('vehicles');
+    const vehicleCount = await vehicleCollection.countDocuments();
     const vehicleIndexes = await getIndexInfo('vehicles');
     
     console.log('📊 Vehicle Collection Stats:');
-    console.log(`  - Documents: ${vehicleStats.count}`);
+    console.log(`  - Documents: ${vehicleCount}`);
     console.log(`  - Indexes: ${vehicleIndexes.length}`);
-    console.log(`  - Total Index Size: ${(vehicleStats.totalIndexSize / 1024 / 1024).toFixed(2)} MB`);
-    
+
     // Suggest optimizations
-    if (vehicleStats.count > 1000 && vehicleIndexes.length < 5) {
+    if (vehicleCount > 1000 && vehicleIndexes.length < 5) {
       console.log('⚠️ Recommendation: Add more indexes for better query performance');
+    } else if (vehicleIndexes.length >= 5) {
+      console.log('✅ Good index coverage for optimal performance');
     }
-    
+
     return {
       vehicles: {
-        count: vehicleStats.count,
+        count: vehicleCount,
         indexes: vehicleIndexes.length,
-        indexSize: vehicleStats.totalIndexSize
+        indexSize: 0 // Not available without stats
       }
     };
     
