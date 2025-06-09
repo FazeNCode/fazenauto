@@ -40,7 +40,7 @@ export default function Home() {
               </span>
             </h1>
             <p className={styles.heroSubtitle}>
-              Quality pre-owned vehicles sold as-is. Transparent pricing, no hidden fees.
+              Quality pre-owned vehicles with transparent pricing, no hidden fees.
               Your trusted automotive partner in finding the right car for your needs.
             </p>
             <div className={styles.heroButtons}>
@@ -64,7 +64,7 @@ export default function Home() {
               <div className={styles.statLabel}>Quality Vehicles</div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statNumber}>As-Is</div>
+              <div className={styles.statNumber}>Fair</div>
               <div className={styles.statLabel}>Transparent Pricing</div>
             </div>
             <div className={styles.statCard}>
@@ -150,7 +150,7 @@ export default function Home() {
               <div className={styles.serviceIcon}>🚗</div>
               <h3 className={styles.serviceTitle}>Quality Vehicles</h3>
               <p className={styles.serviceDescription}>
-                Carefully selected pre-owned vehicles with transparent as-is pricing.
+                Carefully selected pre-owned vehicles with transparent pricing.
                 No hidden fees, just honest deals.
               </p>
             </div>
@@ -188,7 +188,7 @@ export default function Home() {
               </span></h2>
               <p className={styles.aboutDescription}>
                 At FazeNAuto, we're committed to providing quality pre-owned vehicles
-                with complete transparency. Our as-is pricing model means no surprises,
+                with complete transparency. Our pricing model means no surprises,
                 no hidden fees, and honest deals for every customer.
               </p>
               <p className={styles.aboutDescription}>
@@ -199,7 +199,7 @@ export default function Home() {
               <div className={styles.aboutFeatures}>
                 <div className={styles.feature}>
                   <span className={styles.featureIcon}>✓</span>
-                  <span>Transparent As-Is Pricing</span>
+                  <span>Fair Market Pricing</span>
                 </div>
                 <div className={styles.feature}>
                   <span className={styles.featureIcon}>✓</span>

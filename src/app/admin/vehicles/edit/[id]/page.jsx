@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { FaGasPump, FaCogs, FaPalette, FaCar, FaIdCard, FaCalendarAlt, FaDollarSign, FaTachometerAlt } from 'react-icons/fa';
 import styles from './EditVehicle.module.css';
 
 export default function EditVehiclePage() {
@@ -28,6 +29,9 @@ export default function EditVehiclePage() {
     bodyType: '',
     color: '',
   });
+
+  const [newImages, setNewImages] = useState([]);
+  const [imagesToDelete, setImagesToDelete] = useState([]);
 
   useEffect(() => {
     fetchVehicle();
@@ -72,18 +76,50 @@ export default function EditVehiclePage() {
     }));
   };
 
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    setNewImages(prev => [...prev, ...files]);
+  };
+
+  const removeNewImage = (index) => {
+    setNewImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const markImageForDeletion = (imageUrl) => {
+    setImagesToDelete(prev => [...prev, imageUrl]);
+  };
+
+  const unmarkImageForDeletion = (imageUrl) => {
+    setImagesToDelete(prev => prev.filter(url => url !== imageUrl));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
     setError('');
 
     try {
+      // Create FormData for file uploads
+      const submitData = new FormData();
+
+      // Add form fields
+      Object.keys(formData).forEach(key => {
+        submitData.append(key, formData[key]);
+      });
+
+      // Add new images
+      newImages.forEach(image => {
+        submitData.append('newImages', image);
+      });
+
+      // Add images to delete
+      imagesToDelete.forEach(imageUrl => {
+        submitData.append('imagesToDelete', imageUrl);
+      });
+
       const res = await fetch(`/api/vehicles/${vehicleId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        body: submitData,
       });
 
       const data = await res.json();
@@ -120,11 +156,11 @@ export default function EditVehiclePage() {
     <div className={styles.editContainer}>
       <div className={styles.header}>
         <h1>Edit Vehicle</h1>
-        <button 
-          onClick={() => router.push('/admin')} 
+        <button
+          onClick={() => router.push('/admin')}
           className={styles.backBtn}
         >
-          Back to Dashboard
+          ← Back to Dashboard
         </button>
       </div>
 
@@ -137,7 +173,10 @@ export default function EditVehiclePage() {
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGrid}>
           <div className={styles.formGroup}>
-            <label htmlFor="make">Make *</label>
+            <label htmlFor="make">
+              <FaCar className={styles.labelIcon} />
+              Make *
+            </label>
             <input
               type="text"
               id="make"
@@ -150,7 +189,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="model">Model *</label>
+            <label htmlFor="model">
+              <FaCar className={styles.labelIcon} />
+              Model *
+            </label>
             <input
               type="text"
               id="model"
@@ -163,7 +205,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="year">Year *</label>
+            <label htmlFor="year">
+              <FaCalendarAlt className={styles.labelIcon} />
+              Year *
+            </label>
             <input
               type="number"
               id="year"
@@ -178,7 +223,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="price">Price *</label>
+            <label htmlFor="price">
+              <FaDollarSign className={styles.labelIcon} />
+              Price *
+            </label>
             <input
               type="number"
               id="price"
@@ -193,7 +241,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="mileage">Mileage</label>
+            <label htmlFor="mileage">
+              <FaTachometerAlt className={styles.labelIcon} />
+              KM
+            </label>
             <input
               type="number"
               id="mileage"
@@ -206,7 +257,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="vin">VIN</label>
+            <label htmlFor="vin">
+              <FaIdCard className={styles.labelIcon} />
+              VIN
+            </label>
             <input
               type="text"
               id="vin"
@@ -234,7 +288,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="fuelType">Fuel Type</label>
+            <label htmlFor="fuelType">
+              <FaGasPump className={styles.labelIcon} />
+              Fuel Type
+            </label>
             <select
               id="fuelType"
               name="fuelType"
@@ -251,7 +308,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="transmission">Transmission</label>
+            <label htmlFor="transmission">
+              <FaCogs className={styles.labelIcon} />
+              Transmission
+            </label>
             <select
               id="transmission"
               name="transmission"
@@ -267,7 +327,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="bodyType">Body Type</label>
+            <label htmlFor="bodyType">
+              <FaCar className={styles.labelIcon} />
+              Body Type
+            </label>
             <input
               type="text"
               id="bodyType"
@@ -280,7 +343,10 @@ export default function EditVehiclePage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="color">Color</label>
+            <label htmlFor="color">
+              <FaPalette className={styles.labelIcon} />
+              Color
+            </label>
             <input
               type="text"
               id="color"
@@ -290,9 +356,13 @@ export default function EditVehiclePage() {
               className={styles.input}
             />
           </div>
+
+          <div className={styles.formGroup}>
+            {/* Empty space to maintain grid layout */}
+          </div>
         </div>
 
-        <div className={styles.formGroup}>
+        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
           <label htmlFor="description">Description</label>
           <textarea
             id="description"
@@ -303,6 +373,87 @@ export default function EditVehiclePage() {
             className={styles.textarea}
             placeholder="Enter vehicle description..."
           />
+        </div>
+
+        {/* Photo Management Section */}
+        <div className={styles.photoSection}>
+          <h3>Vehicle Photos</h3>
+
+          {/* Current Images */}
+          {vehicle && vehicle.images && vehicle.images.length > 0 && (
+            <div className={styles.currentImages}>
+              <h4>Current Images</h4>
+              <div className={styles.imageGrid}>
+                {vehicle.images.map((image, index) => (
+                  <div key={index} className={styles.imageContainer}>
+                    <img
+                      src={image}
+                      alt={`Vehicle ${index + 1}`}
+                      className={styles.vehicleImage}
+                    />
+                    {imagesToDelete.includes(image) ? (
+                      <button
+                        type="button"
+                        onClick={() => unmarkImageForDeletion(image)}
+                        className={styles.undoDeleteBtn}
+                      >
+                        Undo Delete
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => markImageForDeletion(image)}
+                        className={styles.deleteBtn}
+                      >
+                        Delete
+                      </button>
+                    )}
+                    {imagesToDelete.includes(image) && (
+                      <div className={styles.deleteOverlay}>
+                        <span>Will be deleted</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Add New Images */}
+          <div className={styles.addImages}>
+            <h4>Add New Images</h4>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageUpload}
+              className={styles.fileInput}
+            />
+
+            {newImages.length > 0 && (
+              <div className={styles.newImagesPreview}>
+                <h5>New Images to Upload:</h5>
+                <div className={styles.imageGrid}>
+                  {newImages.map((image, index) => (
+                    <div key={index} className={styles.imageContainer}>
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`New ${index + 1}`}
+                        className={styles.vehicleImage}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeNewImage(index)}
+                        className={styles.deleteBtn}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className={styles.formActions}>
@@ -322,22 +473,6 @@ export default function EditVehiclePage() {
           </button>
         </div>
       </form>
-
-      {vehicle && vehicle.images && vehicle.images.length > 0 && (
-        <div className={styles.imagesSection}>
-          <h3>Current Images</h3>
-          <div className={styles.imageGrid}>
-            {vehicle.images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Vehicle ${index + 1}`}
-                className={styles.vehicleImage}
-              />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

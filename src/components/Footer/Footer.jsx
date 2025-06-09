@@ -2,7 +2,8 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './Footer.module.css';
-import { FaFacebook, FaTwitter, FaInstagram, FaTiktok, FaPhone, FaEnvelope, FaMapMarkerAlt, FaCar, FaClock } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaTiktok, FaCar } from 'react-icons/fa';
+import { MdPhone, MdEmail, MdLocationOn, MdAccessTime } from 'react-icons/md';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -25,7 +26,7 @@ const Footer = () => {
               </h3>
             </div>
             <p className={styles.brandDescription}>
-              Quality pre-owned vehicles with transparent as-is pricing.
+              Quality pre-owned vehicles with transparent pricing.
               No hidden fees, just honest deals for every customer.
             </p>
             <div className={styles.socialLinks}>
@@ -62,21 +63,21 @@ const Footer = () => {
             <h4 className={styles.sectionTitle}>Contact Us</h4>
             <div className={styles.contactInfo}>
               <div className={styles.contactItem}>
-                <FaPhone className={styles.contactIcon} />
+                <MdPhone className={styles.contactIcon} />
                 <span>647-338-9110</span>
               </div>
               <div className={styles.contactItem}>
-                <FaEnvelope className={styles.contactIcon} />
+                <MdEmail className={styles.contactIcon} />
                 <span>info@fazenauto.com</span>
               </div>
               <div className={styles.contactItem}>
-                <FaMapMarkerAlt className={styles.contactIcon} />
-                <span>123 Main Street, Toronto, ON M5V 3A8</span>
+                <MdLocationOn className={styles.contactIcon} />
+                <span>1120 Meighen Way</span>
               </div>
             </div>
             <div className={styles.businessHours}>
               <h5 className={styles.hoursTitle}>
-                <FaClock className={styles.contactIcon} />
+                <MdAccessTime className={styles.contactIcon} />
                 Business Hours
               </h5>
               <p className={styles.hoursText}>

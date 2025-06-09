@@ -7,7 +7,7 @@ export default function Services() {
     {
       icon: '🚗',
       title: 'Quality Pre-Owned Vehicles',
-      description: 'Carefully selected vehicles with transparent as-is pricing. Every vehicle is priced fairly with no hidden fees.',
+      description: 'Carefully selected vehicles with transparent pricing. Every vehicle is priced fairly with no hidden fees.',
       features: [
         'Transparent pricing',
         'No hidden fees',
@@ -21,7 +21,7 @@ export default function Services() {
       description: 'Fair market pricing on all our vehicles. We believe in providing value and transparency to our customers.',
       features: [
         'Market-competitive rates',
-        'As-is pricing model',
+        'Transparent pricing model',
         'No surprise charges',
         'Value for money'
       ]
