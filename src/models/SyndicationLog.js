@@ -103,7 +103,8 @@ const syndicationLogSchema = new Schema(
       ipAddress: String,
       userId: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: false
       },
       
       // Platform-specific settings used
@@ -133,7 +134,6 @@ const syndicationLogSchema = new Schema(
 syndicationLogSchema.index({ vehicleId: 1, platform: 1 });
 syndicationLogSchema.index({ status: 1, createdAt: -1 });
 syndicationLogSchema.index({ platform: 1, status: 1, createdAt: -1 });
-syndicationLogSchema.index({ nextRetry: 1 }, { sparse: true });
 
 // Instance methods
 syndicationLogSchema.methods.markAsSuccess = function(externalId, externalUrl, platformData = {}) {

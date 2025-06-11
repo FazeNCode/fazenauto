@@ -30,7 +30,7 @@ const Footer = () => {
               No hidden fees, just honest deals for every customer.
             </p>
             <div className={styles.socialLinks}>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+              <a href="https://www.facebook.com/profile.php?id=61577486330108" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
                 <FaFacebook />
               </a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>

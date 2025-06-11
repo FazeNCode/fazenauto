@@ -45,6 +45,7 @@ const navItems = [
   { label: 'Dashboard', href: '/admin' },
   { label: 'Vehicle Info', href: '/admin/vehicle-info' },
   { label: 'Upload New', href: '/vehicles/upload' },
+  { label: 'Facebook Setup', href: '/admin/facebook-setup' },
 ];
 
 export default function Sidebar({ collapsed, onToggle }) {

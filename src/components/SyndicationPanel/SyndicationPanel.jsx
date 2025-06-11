@@ -76,6 +76,18 @@ export default function SyndicationPanel({ selectedVehicles = [], onRefresh }) {
     setResults(null);
 
     try {
+      // Get current user from localStorage
+      let userId = null;
+      try {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          userId = userData.userId;
+        }
+      } catch (error) {
+        console.warn('Could not get user ID from localStorage:', error);
+      }
+
       const response = await fetch('/api/syndication', {
         method: 'POST',
         headers: {
@@ -85,7 +97,7 @@ export default function SyndicationPanel({ selectedVehicles = [], onRefresh }) {
           vehicleIds: selectedVehicles,
           platforms: selectedPlatforms,
           settings: {
-            userId: 'current-user', // Replace with actual user ID
+            userId: userId,
             platformSettings: {
               // Add platform-specific settings here
             }
