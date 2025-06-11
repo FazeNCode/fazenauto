@@ -22,7 +22,11 @@ export default class FacebookMarketplaceHandler {
 
   isEnabled() {
     // Check if Facebook credentials are configured
-    return !!(process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET);
+    return !!(
+      process.env.FACEBOOK_APP_ID &&
+      process.env.FACEBOOK_APP_SECRET &&
+      (process.env.FACEBOOK_PAGE_TOKEN || process.env.FACEBOOK_USER_TOKEN)
+    );
   }
 
   requiresAuth() {
@@ -52,14 +56,23 @@ export default class FacebookMarketplaceHandler {
         throw new Error('Vehicle not found');
       }
 
-      // Validate required settings
-      if (!settings.accessToken) {
-        throw new Error('Facebook access token required');
+      // Get access token from settings or environment
+      const accessToken = settings.accessToken ||
+                         process.env.FACEBOOK_PAGE_TOKEN ||
+                         process.env.FACEBOOK_USER_TOKEN;
+
+      const pageId = settings.pageId || process.env.FACEBOOK_PAGE_ID;
+
+      if (!accessToken) {
+        throw new Error('Facebook access token required. Set FACEBOOK_PAGE_TOKEN or FACEBOOK_USER_TOKEN in environment variables.');
       }
 
-      if (!settings.pageId) {
-        throw new Error('Facebook page ID required');
+      if (!pageId) {
+        throw new Error('Facebook page ID required. Set FACEBOOK_PAGE_ID in environment variables.');
       }
+
+      // Update settings with resolved values
+      settings = { ...settings, accessToken, pageId };
 
       // Format vehicle data for Facebook
       const listingData = this.formatVehicleForFacebook(vehicle, settings);
