@@ -247,13 +247,13 @@ export default function UploadForm() {
 
           <div className={styles.twoColumnGrid}>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Mileage *</label>
+              <label className={styles.label}>Odometer (KM) *</label>
               <input
                 name="mileage"
                 type="number"
                 value={formData.mileage}
                 onChange={handleInputChange}
-                placeholder="Miles (e.g., 50000)"
+                placeholder="Kilometers (e.g., 80000)"
                 min="0"
                 required
                 className={styles.input}

@@ -14,7 +14,7 @@ export default function VehicleCard({ vehicle }) {
       <div className={styles.vehicleInfo}>
         <h3>{vehicle.year} {vehicle.make} {vehicle.model}</h3>
         <p>Color: {vehicle.color}</p>
-        <p>Mileage: {vehicle.mileage.toLocaleString()} mi</p>
+        <p>Odometer: {vehicle.mileage.toLocaleString()} km</p>
         <p>Engine: {vehicle.engine}</p>
         <p>Drivetrain: {vehicle.drivetrain}</p>
         <p>Transmission: {vehicle.transmission}</p>

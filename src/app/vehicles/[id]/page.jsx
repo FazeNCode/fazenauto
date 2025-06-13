@@ -103,7 +103,7 @@ export default function VehicleDetailsPage() {
           <div className={styles.specsGrid}>
             <div className={styles.specCard}>
               <h3>Odometer</h3>
-              <p>{vehicle.mileage ? `${(vehicle.mileage * 1.60934).toLocaleString(undefined, { maximumFractionDigits: 0 })} km` : 'N/A'}</p>
+              <p>{vehicle.mileage ? `${vehicle.mileage.toLocaleString()} km` : 'N/A'}</p>
             </div>
             <div className={styles.specCard}>
               <h3>Engine</h3>

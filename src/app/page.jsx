@@ -110,7 +110,7 @@ export default function Home() {
                     </h3>
                     <div className={styles.vehicleSpecs}>
                       <span className={styles.spec}>
-                        {vehicle.mileage ? `${(vehicle.mileage * 1.60934).toLocaleString(undefined, { maximumFractionDigits: 0 })} km` : 'N/A'}
+                        {vehicle.mileage ? `${vehicle.mileage.toLocaleString()} km` : 'N/A'}
                       </span>
                       <span className={styles.spec}>{vehicle.engine || 'N/A'}</span>
                       <span className={styles.spec}>{vehicle.transmission || 'N/A'}</span>
