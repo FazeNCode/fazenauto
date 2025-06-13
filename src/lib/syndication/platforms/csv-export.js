@@ -211,7 +211,7 @@ export default class CSVExportHandler {
   generateDescription(vehicle) {
     const features = [
       `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
-      `${vehicle.mileage?.toLocaleString()} kilometers`,
+      `${vehicle.mileage?.toLocaleString()} km`,
       `${vehicle.engine} engine`,
       `${vehicle.transmission} transmission`,
       `${vehicle.drivetrain} drivetrain`,
@@ -228,7 +228,7 @@ export default class CSVExportHandler {
     return `${vehicle.year} ${vehicle.make} ${vehicle.model}
 
 Price: $${vehicle.price.toLocaleString()}
-Mileage: ${vehicle.mileage?.toLocaleString()} km
+Odometer: ${vehicle.mileage?.toLocaleString()} km
 Engine: ${vehicle.engine}
 Transmission: ${vehicle.transmission}
 Drivetrain: ${vehicle.drivetrain}

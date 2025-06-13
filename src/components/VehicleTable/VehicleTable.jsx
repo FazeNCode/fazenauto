@@ -68,6 +68,8 @@ export default function VehicleTable({
 
     setActionLoading(true);
     try {
+      console.log('🔄 Updating vehicle status to sold:', selectedVehicle._id);
+
       const res = await fetch(`/api/vehicles/${selectedVehicle._id}`, {
         method: 'PUT',
         headers: {
@@ -76,15 +78,19 @@ export default function VehicleTable({
         body: JSON.stringify({ status: 'sold' }),
       });
 
-      if (res.ok) {
+      const responseData = await res.json();
+      console.log('📝 API Response:', responseData);
+
+      if (res.ok && responseData.success) {
+        console.log('✅ Vehicle marked as sold successfully');
         onRefresh(); // Refresh the table
         setShowSoldModal(false);
         setSelectedVehicle(null);
       } else {
-        throw new Error('Failed to mark vehicle as sold');
+        throw new Error(responseData.error || 'Failed to mark vehicle as sold');
       }
     } catch (error) {
-      console.error('Mark as sold failed:', error);
+      console.error('❌ Mark as sold failed:', error);
       alert('Error marking vehicle as sold: ' + error.message);
     } finally {
       setActionLoading(false);
@@ -203,7 +209,7 @@ export default function VehicleTable({
       header: 'Mileage',
       cell: ({ getValue }) => {
         const mileage = getValue();
-        return mileage ? `${Number(mileage).toLocaleString()} mi` : 'N/A';
+        return mileage ? `${Number(mileage).toLocaleString()} km` : 'N/A';
       },
     },
     {

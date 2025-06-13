@@ -103,7 +103,7 @@ export default function VehicleList({ vehicles }) {
       <div className={styles.priceTag}>${vehicle.price.toLocaleString()}</div>
     </div>
     <h3>{vehicle.year} {vehicle.make} {vehicle.model}</h3>
-    <p><strong>Mileage:</strong> {(vehicle.mileage * 1.60934).toLocaleString(undefined, { maximumFractionDigits: 1 })} km</p>
+    <p><strong>Odometer:</strong> {vehicle.mileage.toLocaleString()} km</p>
     <p><strong>Engine:</strong> {vehicle.engine || 'N/A'}</p>
     <p><strong>Drivetrain:</strong> {vehicle.drivetrain || 'N/A'}</p>
     <p><strong>Transmission:</strong> {vehicle.transmission || 'N/A'}</p>

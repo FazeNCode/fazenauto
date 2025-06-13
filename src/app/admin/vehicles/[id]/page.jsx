@@ -25,7 +25,7 @@ export default function VehicleDetails() {
       <img src={vehicle.imageUrl} alt={`${vehicle.make} ${vehicle.model}`} style={{ maxWidth: '100%', borderRadius: '8px' }} />
       <p><strong>VIN:</strong> {vehicle.vin}</p>
       <p><strong>Color:</strong> {vehicle.color}</p>
-      <p><strong>Mileage:</strong> {vehicle.mileage.toLocaleString()} mi</p>
+      <p><strong>Mileage:</strong> {vehicle.mileage.toLocaleString()} km</p>
       <p><strong>Engine:</strong> {vehicle.engine || 'N/A'}</p>
       <p><strong>Drivetrain:</strong> {vehicle.drivetrain || 'N/A'}</p>
       <p><strong>Transmission:</strong> {vehicle.transmission || 'N/A'}</p>

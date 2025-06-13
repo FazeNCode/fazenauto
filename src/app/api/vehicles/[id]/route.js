@@ -15,8 +15,11 @@ const s3 = new S3Client({
 export async function GET(req, { params }) {
   await connectToDatabase();
 
+  // Await params in Next.js 15+
+  const { id } = await params;
+
   try {
-    const vehicle = await Vehicle.findById(params.id);
+    const vehicle = await Vehicle.findById(id);
     if (!vehicle) {
       return NextResponse.json({ success: false, message: 'Vehicle not found' }, { status: 404 });
     }
@@ -28,6 +31,9 @@ export async function GET(req, { params }) {
 
 export async function PUT(req, { params }) {
   await connectToDatabase();
+
+  // Await params in Next.js 15+
+  const { id } = await params;
 
   try {
     const contentType = req.headers.get('content-type');
@@ -51,7 +57,7 @@ export async function PUT(req, { params }) {
       }
 
       // Get current vehicle to access existing images
-      const currentVehicle = await Vehicle.findById(params.id);
+      const currentVehicle = await Vehicle.findById(id);
       if (!currentVehicle) {
         return NextResponse.json({ success: false, message: 'Vehicle not found' }, { status: 404 });
       }
@@ -115,7 +121,7 @@ export async function PUT(req, { params }) {
       updateData = await req.json();
     }
 
-    const updatedVehicle = await Vehicle.findByIdAndUpdate(params.id, updateData, {
+    const updatedVehicle = await Vehicle.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     });
@@ -134,9 +140,12 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   await connectToDatabase();
 
+  // Await params in Next.js 15+
+  const { id } = await params;
+
   try {
     // First, get the vehicle to access its images
-    const vehicle = await Vehicle.findById(params.id);
+    const vehicle = await Vehicle.findById(id);
 
     if (!vehicle) {
       return NextResponse.json({ success: false, message: 'Vehicle not found' }, { status: 404 });
@@ -164,7 +173,7 @@ export async function DELETE(req, { params }) {
     }
 
     // Delete vehicle from database
-    const deleted = await Vehicle.findByIdAndDelete(params.id);
+    await Vehicle.findByIdAndDelete(id);
 
     return NextResponse.json({
       success: true,

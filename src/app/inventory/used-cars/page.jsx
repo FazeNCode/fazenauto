@@ -115,7 +115,7 @@ export default function QualityUsedCars() {
 
                   <div className={styles.vehicleDetails}>
                     <span className={styles.mileage}>
-                      {vehicle.mileage ? `${(vehicle.mileage * 1.60934).toLocaleString(undefined, { maximumFractionDigits: 0 })} km` : 'N/A'}
+                      {vehicle.mileage ? `${vehicle.mileage.toLocaleString()} km` : 'N/A'}
                     </span>
                   </div>
 
